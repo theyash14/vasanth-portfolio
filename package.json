@@ -1,24 +1,25 @@
 {
-  "name": "vasanth-portfolio",
-  "version": "0.0.0",
-  "private": true,
+  "name": "vasanth-portfolio1",
   "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "vp dev",
-    "build": "tsc && vp build",
-    "preview": "vp preview",
-    "prepare": "vp config"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
-  "devDependencies": {
-    "typescript": "~5.9.3",
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest"
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.3.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.2",
+    "reicon-astro": "^1.0.0",
+    "tailwindcss": "^4.3.3",
+    "wrangler": "^4.131.1"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    }
+  "allowScripts": {
+    "esbuild": true
   }
 }
