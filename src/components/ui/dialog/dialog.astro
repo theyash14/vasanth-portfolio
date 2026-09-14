@@ -1,0 +1,41 @@
+---
+import type { HTMLAttributes } from "astro/types"
+
+type Props = HTMLAttributes<"div"> & {
+  defaultOpen?: boolean
+  closeOnClickOutside?: boolean
+  closeOnEscape?: boolean
+  lockScroll?: boolean
+  alertDialog?: boolean
+}
+
+const {
+  class: className,
+  defaultOpen,
+  closeOnClickOutside,
+  closeOnEscape,
+  lockScroll,
+  alertDialog,
+  ...props
+} = Astro.props
+---
+
+<div
+  data-slot="dialog"
+  data-default-open={defaultOpen}
+  data-close-on-click-outside={closeOnClickOutside}
+  data-close-on-escape={closeOnEscape}
+  data-lock-scroll={lockScroll}
+  data-alert-dialog={alertDialog}
+  class={className}
+  {...props}
+>
+  <slot />
+</div>
+
+<script>
+  import { create } from "@data-slot/dialog"
+
+  create()
+  document.addEventListener("astro:page-load", () => create())
+</script>
