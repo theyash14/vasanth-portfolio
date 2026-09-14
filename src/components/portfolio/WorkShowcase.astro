@@ -1,0 +1,292 @@
+---
+import { Card } from '@/components/ui/card';
+import { Empty, EmptyTitle } from '@/components/ui/empty';
+import {
+  Section,
+  SectionContainer,
+  SectionDescription,
+  SectionTitle,
+} from '@/components/ui/section';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { clients } from '../../data/portfolio';
+---
+
+<Section class="work" id="work" aria-labelledby="work-title">
+  <SectionContainer class="shell max-w-none gap-0 px-0">
+    <div class="section-heading">
+      <SectionTitle as="h2" class="work-title" id="work-title">
+        Selected collaborations
+      </SectionTitle>
+      <SectionDescription class="work-description">
+        Six clients. Film, motion and AI.
+      </SectionDescription>
+    </div>
+
+    <Tabs defaultValue={clients[0]?.id} class="gap-0">
+      <TabsList variant="line" class="client-tabs h-auto w-full rounded-none p-0">
+        {clients.map((client) => (
+          <TabsTrigger id={`${client.id}-tab`} class="client-tab" value={client.id}>
+            {client.tab}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      {clients.map((client, index) => (
+        <TabsContent value={client.id} hidden={index !== 0}>
+          <Card class="client-panel rounded-none border-0 bg-transparent py-0 shadow-none ring-0">
+          <div class="client-intro">
+            <div>
+              <h3>
+                {client.tab} / {client.name}
+              </h3>
+              <p class="services">{client.services}</p>
+            </div>
+            <p>{client.description}</p>
+          </div>
+
+          <figure class:list={['feature-film', { placeholder: !client.image }]}>
+            {client.image ? (
+              <img
+                src={client.image}
+                width="1800"
+                height="920"
+                alt={client.alt}
+                loading="lazy"
+              />
+            ) : (
+              <Empty
+                class="empty-media rounded-none border-0 p-0"
+                role="img"
+                aria-label="Placeholder for an AI campaign film still"
+              >
+                <EmptyTitle>Your AI film still</EmptyTitle>
+              </Empty>
+            )}
+            <figcaption class="media-caption">
+              <span>{client.title}</span>
+              <a href="#contact">
+                Discuss this work <span aria-hidden="true">↗</span>
+              </a>
+            </figcaption>
+          </figure>
+
+          <section class="supporting-work" aria-label="Supporting work placeholders">
+            <figure>
+              <img
+                src="https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1200&q=84"
+                width="1200"
+                height="720"
+                alt="Architectural forms used as a motion design placeholder"
+                loading="lazy"
+              />
+              <figcaption>Motion design study <span aria-hidden="true">↗</span></figcaption>
+            </figure>
+            <figure>
+              <Empty
+                class="empty-media rounded-none border-0 p-0"
+                role="img"
+                aria-label="Placeholder for an AI compositing project"
+              >
+                <EmptyTitle>Your AI film still</EmptyTitle>
+              </Empty>
+              <figcaption>AI compositing study <span aria-hidden="true">↗</span></figcaption>
+            </figure>
+          </section>
+          </Card>
+        </TabsContent>
+      ))}
+    </Tabs>
+  </SectionContainer>
+</Section>
+
+<style>
+:global(.work) {
+  padding-block: 6.5rem 8rem;
+  border-top: 1px solid var(--border);
+}
+
+.section-heading {
+  margin-bottom: 2.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+:global(.work-title) {
+  font-size: clamp(3.5rem, 6vw, 5.4rem);
+  font-weight: 450;
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
+
+:global(.work-description) {
+  font-size: 1.08rem;
+}
+
+:global(.client-tabs) {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  min-height: 56px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+
+:global(.client-tabs::-webkit-scrollbar) {
+  display: none;
+}
+
+:global(.client-tab) {
+  min-width: 130px;
+  min-height: 56px;
+  padding: 0.9rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+:global(.client-tab[data-state="active"]) {
+  border-bottom: 3px solid var(--foreground);
+  color: var(--foreground);
+  font-weight: 620;
+}
+
+:global(.client-tab::after) {
+  display: none;
+}
+
+:global(.client-panel) {
+  padding-top: 3rem;
+}
+
+.client-intro {
+  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.25fr);
+  gap: clamp(3rem, 8vw, 7rem);
+  align-items: start;
+}
+
+.client-intro h3 {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 480;
+  letter-spacing: -0.035em;
+}
+
+.client-intro > p {
+  color: var(--muted-foreground);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.services {
+  margin-top: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+:global(.empty-media) {
+  background: var(--portfolio-media);
+  color: var(--foreground);
+}
+
+:global(.feature-film > img),
+:global(.feature-film > .empty-media) {
+  width: 100%;
+  aspect-ratio: 2.18 / 1;
+  object-fit: cover;
+}
+
+:global(.feature-film > img) {
+  filter: saturate(0.72) sepia(0.06);
+}
+
+.media-caption {
+  min-height: 76px;
+  padding-top: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.media-caption > span {
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  font-weight: 450;
+  letter-spacing: -0.035em;
+}
+
+.media-caption a {
+  position: relative;
+  white-space: nowrap;
+}
+
+.media-caption a::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  bottom: -0.3rem;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.35s var(--portfolio-ease);
+}
+
+.media-caption a:hover::after {
+  right: 0;
+}
+
+.supporting-work {
+  margin-top: 1.75rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+:global(.supporting-work img),
+:global(.supporting-work .empty-media) {
+  width: 100%;
+  aspect-ratio: 1.78 / 1;
+  object-fit: cover;
+}
+
+:global(.supporting-work img) {
+  filter: saturate(0.7);
+}
+
+.supporting-work figcaption {
+  padding-top: 1rem;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 700px) {
+  :global(.work) {
+    padding-block: 4.5rem 5.5rem;
+  }
+
+  :global(.work-title) {
+    font-size: clamp(3rem, 14vw, 4rem);
+  }
+
+  :global(.client-tabs) {
+    grid-template-columns: repeat(6, 120px);
+  }
+
+  .client-intro {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  :global(.feature-film > img),
+  :global(.feature-film > .empty-media) {
+    aspect-ratio: 1.45 / 1;
+  }
+
+  .supporting-work {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

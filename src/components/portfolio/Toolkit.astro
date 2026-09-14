@@ -1,0 +1,74 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Item } from '@/components/ui/item';
+import { Marquee } from '@/components/ui/marquee';
+import { Section, SectionContainer, SectionTitle } from '@/components/ui/section';
+import { Separator } from '@/components/ui/separator';
+import { tools } from '../../data/portfolio';
+---
+
+<Section class="toolkit gap-0 py-0" aria-labelledby="toolkit-title">
+  <Separator />
+  <SectionContainer class="shell toolkit-inner max-w-none gap-0 px-0">
+    <SectionTitle as="h2" class="toolkit-title" id="toolkit-title"> Toolkit </SectionTitle>
+    <Marquee class="toolkit-list" duration="28s" gap="clamp(2.5rem, 6vw, 6rem)" pauseOnHover>
+      {tools.map((tool) => (
+                <Item class="toolkit-item w-auto shrink-0 rounded-none border-0 p-0">
+                    <Icon name={tool.icon} title={tool.name} class="toolkit-icon" />
+                </Item>
+            ))}
+    </Marquee>
+  </SectionContainer>
+  <Separator />
+</Section>
+
+<style>
+:global(.toolkit-inner) {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 0.55fr minmax(0, 2fr);
+  align-items: center;
+  gap: 3rem;
+}
+
+:global(.toolkit-title) {
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+  font-weight: 520;
+}
+
+:global(.toolkit-list) {
+  min-width: 0;
+}
+
+:global(.toolkit-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+:global(.toolkit-icon) {
+  width: auto;
+  height: clamp(2rem, 3vw, 2.75rem);
+  max-width: 8rem;
+}
+
+@media (max-width: 900px) {
+  :global(.toolkit-inner) {
+    padding-block: 2rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.toolkit-list > div) {
+    animation: none;
+  }
+
+  :global(.toolkit-list > [aria-hidden="true"]) {
+    display: none;
+  }
+}
+</style>

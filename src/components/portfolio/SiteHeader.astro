@@ -1,0 +1,81 @@
+---
+import { Header, HeaderContainer, HeaderGroup } from '@/components/ui/header';
+import { Logo, LogoText } from '@/components/ui/logo';
+import PortfolioButton from './PortfolioButton.astro';
+---
+
+<Header class="site-header shell gap-0 py-0">
+  <HeaderContainer class="site-header-container max-w-none gap-0 px-0">
+    <HeaderGroup>
+      <Logo href="/">
+        <LogoText class="tracking-[0.08em]">VASANTH</LogoText>
+      </Logo>
+    </HeaderGroup>
+    <HeaderGroup class="header-navigation">
+      <nav aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#work">Selected work</a>
+        <a href="#recognition">Recognition</a>
+      </nav>
+    </HeaderGroup>
+    <HeaderGroup class="ml-auto">
+      <PortfolioButton href="#contact" compact>
+        Contact <span aria-hidden="true">↗</span>
+      </PortfolioButton>
+    </HeaderGroup>
+  </HeaderContainer>
+</Header>
+
+<style>
+:global(.site-header) {
+  height: 80px;
+  border-bottom: 1px solid var(--border);
+}
+
+:global(.site-header-container) {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  gap: 2.25rem;
+  font-size: 0.92rem;
+}
+
+nav a {
+  position: relative;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  bottom: -0.3rem;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.35s var(--portfolio-ease);
+}
+
+nav a:hover::after {
+  right: 0;
+}
+
+@media (max-width: 900px) {
+  :global(.site-header-container) {
+    grid-template-columns: 1fr auto;
+  }
+
+  :global(.header-navigation) {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  :global(.site-header) {
+    height: 68px;
+  }
+}
+</style>

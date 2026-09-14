@@ -1,0 +1,128 @@
+:root {
+  --radius: 0rem;
+  --container: 82rem;
+  --gutter: 4rem;
+  --font-base: "Geist Variable", Arial, sans-serif;
+  --font-heading: "Geist Variable", Arial, sans-serif;
+  --portfolio-media: #d9d8d3;
+  --portfolio-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root:not(.dark) {
+  --background: #f1ebdd;
+  --foreground: #451722;
+  --card: #f1ebdd;
+  --card-foreground: #451722;
+  --popover: #f1ebdd;
+  --popover-foreground: #451722;
+  --primary: #451722;
+  --primary-foreground: #f1ebdd;
+  --secondary: #e5dccb;
+  --secondary-foreground: #451722;
+  --muted: #e5dccb;
+  --muted-foreground: #72645f;
+  --accent: #e5dccb;
+  --accent-foreground: #451722;
+  --destructive: #b4232f;
+  --border: #cfc2b2;
+  --input: #cfc2b2;
+  --ring: #451722;
+}
+
+.dark {
+  --portfolio-media: var(--secondary);
+}
+
+body {
+  min-width: 320px;
+  font-size: 16px;
+}
+
+button,
+a {
+  color: inherit;
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+figure,
+p,
+h1,
+h2,
+h3,
+ul {
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+[hidden] {
+  /* biome-ignore lint/complexity/noImportantStyles: The hidden attribute must override component display styles. */
+  display: none !important;
+}
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 4px;
+}
+
+.shell {
+  width: min(calc(100% - (var(--gutter) * 2)), var(--container));
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 10;
+  top: -5rem;
+  left: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --gutter: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: Reduced-motion preferences must override animations. */
+    animation-duration: 0.01ms !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Reduced-motion preferences must override transitions. */
+    transition-duration: 0.01ms !important;
+  }
+}

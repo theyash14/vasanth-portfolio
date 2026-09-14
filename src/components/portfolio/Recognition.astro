@@ -1,0 +1,98 @@
+---
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
+import { Section, SectionDescription, SectionTitle } from '@/components/ui/section';
+---
+
+<Section class="recognition shell" id="recognition" aria-labelledby="award-title">
+  <Empty
+    class="award-image"
+    role="img"
+    aria-label="Placeholder for Vasanth's Best Editor award photograph"
+  >
+    <EmptyHeader>
+      <EmptyMedia><span aria-hidden="true" class="award-mark">▣</span></EmptyMedia>
+      <EmptyTitle>Award photograph</EmptyTitle>
+      <EmptyDescription>Add your Best Editor award moment</EmptyDescription>
+    </EmptyHeader>
+  </Empty>
+  <div class="award-copy">
+    <SectionTitle as="h2" class="award-title" id="award-title"> Best Editor<br>Award </SectionTitle>
+    <p class="award-meta">[ Award organisation ] / [ Year ]</p>
+    <SectionDescription class="award-description">
+      A proud moment in the journey. A reminder to keep creating work that connects, challenges, and
+      stays with people.
+    </SectionDescription>
+  </div>
+</Section>
+
+<style>
+:global(.recognition) {
+  min-height: 620px;
+  padding-block: 6.5rem;
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr;
+  align-items: center;
+  gap: clamp(4rem, 8vw, 8rem);
+}
+
+:global(.award-image) {
+  min-height: 450px;
+  background: var(--portfolio-media);
+}
+
+.award-mark {
+  color: #8f785d;
+  font-size: 1.8rem;
+}
+
+.award-copy {
+  max-width: 29rem;
+}
+
+:global(.award-title) {
+  font-size: clamp(3.5rem, 6vw, 5.4rem);
+  font-weight: 450;
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
+
+.award-meta {
+  margin-block: 2rem 1.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+}
+
+:global(.award-description) {
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  :global(.recognition) {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .recognition {
+    min-height: auto;
+    padding-block: 5.5rem;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  :global(.award-title) {
+    font-size: clamp(3rem, 14vw, 4rem);
+  }
+
+  :global(.award-image) {
+    min-height: 340px;
+  }
+}
+</style>

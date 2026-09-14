@@ -1,0 +1,122 @@
+---
+import { Item, ItemActions, ItemContent, ItemGroup, ItemTitle } from '@/components/ui/item';
+import { Section, SectionContainer, SectionTitle } from '@/components/ui/section';
+import { Separator } from '@/components/ui/separator';
+import { profile } from '../../data/portfolio';
+
+const contactLinks = [
+  { label: 'Email', value: profile.email, href: `mailto:${profile.email}` },
+  { label: 'LinkedIn', value: '[ Your profile ]', href: profile.linkedin },
+  { label: 'WhatsApp', value: '[ Your number ]', href: profile.whatsapp },
+  { label: 'Instagram', value: '[ @yourhandle ]', href: profile.instagram },
+];
+---
+
+<Section class="contact gap-0 py-0" id="contact" aria-labelledby="contact-title">
+  <Separator class="bg-foreground" />
+  <SectionContainer class="shell max-w-none gap-0 px-0">
+    <SectionTitle as="h2" class="contact-title" id="contact-title">
+      Have something in mind?
+    </SectionTitle>
+    <ItemGroup class="contact-grid">
+      {contactLinks.map((link) => (
+        <li class="list-none">
+          <Item
+            class="contact-link rounded-none border-0 px-0 py-0"
+            href={link.href}
+          >
+            <ItemContent>
+              <ItemTitle class="contact-label">{link.label}</ItemTitle>
+              <span>{link.value}</span>
+            </ItemContent>
+            <ItemActions><span aria-hidden="true">↗</span></ItemActions>
+          </Item>
+        </li>
+      ))}
+    </ItemGroup>
+    <Separator class="footer-separator" />
+    <footer>
+      <span>© {new Date().getFullYear()} Vasanth</span>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </SectionContainer>
+</Section>
+
+<style>
+:global(.contact) {
+  padding-top: 6rem;
+}
+
+:global(.contact-title) {
+  max-width: 14ch;
+  margin-bottom: 4.5rem;
+  font-size: clamp(3.5rem, 6vw, 5.4rem);
+  font-weight: 450;
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
+
+:global(.contact-grid) {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+:global(.contact-link) {
+  min-height: 96px;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: 1.15rem;
+  transition: transform 0.25s var(--portfolio-ease);
+}
+
+:global(.contact-link:hover) {
+  transform: translateY(-3px);
+}
+
+:global(.contact-label) {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.86rem;
+}
+
+footer {
+  min-height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+:global(.footer-separator) {
+  margin-top: 5rem;
+}
+
+@media (max-width: 900px) {
+  :global(.contact-grid) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  :global(.contact) {
+    padding-top: 5rem;
+  }
+
+  :global(.contact-title) {
+    margin-bottom: 3rem;
+    font-size: clamp(3rem, 14vw, 4rem);
+  }
+
+  :global(.contact-grid) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  :global(.contact-link) {
+    min-height: 78px;
+  }
+}
+</style>

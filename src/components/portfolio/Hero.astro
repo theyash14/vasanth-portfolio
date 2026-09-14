@@ -1,0 +1,137 @@
+---
+import { Section, SectionDescription, SectionTitle } from '@/components/ui/section';
+import { profile } from '../../data/portfolio';
+import PortfolioButton from './PortfolioButton.astro';
+
+const portrait = '/images/vasanth-portrait-placeholder.png';
+---
+
+<Section class="hero shell" id="top" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="kicker">Independent video editor &amp; motion artist</p>
+    <SectionTitle as="h1" class="hero-title" id="hero-title">Vasanth.</SectionTitle>
+    <p class="roles">Editor, animator,<br>image-maker.</p>
+    <SectionDescription class="introduction" id="about">
+      {profile.introduction}
+    </SectionDescription>
+    <PortfolioButton href="#showreel">
+      Watch my reel <span aria-hidden="true">↗</span>
+    </PortfolioButton>
+  </div>
+  <figure class="portrait-frame">
+    <img
+      src={portrait}
+      width="800"
+      height="1096"
+      alt="Portrait placeholder for Vasanth"
+      fetchpriority="high"
+    >
+    <figcaption>Portrait placeholder</figcaption>
+  </figure>
+</Section>
+
+<style>
+:global(.hero) {
+  min-height: calc(100dvh - 80px);
+  padding-block: 4rem 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 0.95fr);
+  gap: clamp(3rem, 7vw, 7rem);
+  align-items: center;
+}
+
+.kicker {
+  margin-bottom: 1.6rem;
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+}
+
+:global(.hero-title) {
+  font-size: clamp(5rem, 9vw, 8.25rem);
+  font-weight: 480;
+  line-height: 0.84;
+  letter-spacing: -0.07em;
+}
+
+.roles {
+  margin-top: 2rem;
+  font-size: clamp(2rem, 3.5vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+:global(.introduction) {
+  max-width: 48rem;
+  margin-block: 2rem;
+  font-size: clamp(1rem, 1.25vw, 1.08rem);
+  line-height: 1.65;
+}
+
+.portrait-frame img {
+  width: 100%;
+  aspect-ratio: 400 / 548;
+  object-fit: cover;
+  object-position: center;
+  background: var(--portfolio-media);
+}
+
+figcaption {
+  margin-top: 0.8rem;
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+  :global(.hero) {
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  :global(.hero) {
+    min-height: auto;
+    padding-block: 3rem 5rem;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .hero-copy {
+    display: contents;
+  }
+
+  .kicker {
+    order: 1;
+    margin: 0;
+  }
+
+  :global(.hero-title) {
+    order: 2;
+    font-size: clamp(4.6rem, 23vw, 6rem);
+  }
+
+  .roles {
+    order: 3;
+    margin-top: -0.75rem;
+    font-size: 2.2rem;
+  }
+
+  .portrait-frame {
+    order: 4;
+  }
+
+  :global(.introduction) {
+    order: 5;
+    margin: 0;
+  }
+
+  .hero-copy :global(.portfolio-button) {
+    order: 6;
+  }
+
+  .portrait-frame img {
+    aspect-ratio: 1 / 1.18;
+    object-position: center 35%;
+  }
+}
+</style>

@@ -22,7 +22,9 @@ pnpm build
 ## Content
 
 - Edit biography, clients, tools, and contact links in `src/data/portfolio.ts`.
-- Edit page structure in `src/pages/index.astro`.
-- Edit the visual system and responsive layout in `src/styles/global.css`.
+- Compose the page in `src/pages/index.astro`.
+- Edit section markup and scoped styles in `src/components/portfolio`.
+- Keep Full.dev and Tailwind defaults in `src/styles/global.css`.
+- Edit portfolio colors, typography, resets, and shared layout utilities in `src/styles/portfolio-theme.css`.
 - Replace `public/images/vasanth-portrait-placeholder.png` with the final portrait.
 - Replace the showreel and project placeholders before publishing.

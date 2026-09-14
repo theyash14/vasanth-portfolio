@@ -1,65 +1,25 @@
 ---
+import Contact from '../components/portfolio/Contact.astro';
+import Hero from '../components/portfolio/Hero.astro';
+import Recognition from '../components/portfolio/Recognition.astro';
+import Showreel from '../components/portfolio/Showreel.astro';
+import SiteHeader from '../components/portfolio/SiteHeader.astro';
+import Toolkit from '../components/portfolio/Toolkit.astro';
+import WorkShowcase from '../components/portfolio/WorkShowcase.astro';
 import Layout from '../layouts/Layout.astro';
-import Button from '../components/ui/button/button.astro';
-import { clients, profile, tools } from '../data/portfolio';
-const portrait = '/images/vasanth-portrait-placeholder.png';
 ---
-<Layout title="Vasanth | Video editor, animator and AI editor" description="Vasanth creates cinematic films, motion design and AI-assisted visual work.">
-  <header class="site-header shell">
-    <a class="wordmark" href="#top" aria-label="Vasanth, home">VASANTH</a>
-    <nav aria-label="Primary navigation"><a href="#about">About</a><a href="#work">Selected work</a><a href="#recognition">Recognition</a></nav>
-    <Button class="button button-small" href="#contact">Contact <span aria-hidden="true">↗</span></Button>
-  </header>
+
+<Layout
+  title="Vasanth | Video editor, animator and AI editor"
+  description="Vasanth creates cinematic films, motion design and AI-assisted visual work."
+>
+  <SiteHeader />
   <main id="main">
-    <section class="hero shell" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="kicker">Independent video editor &amp; motion artist</p>
-        <h1 id="hero-title">Vasanth.</h1>
-        <p class="roles">Editor, animator,<br />image-maker.</p>
-        <p class="introduction" id="about">{profile.introduction}</p>
-        <Button class="button" href="#showreel">Watch my reel <span aria-hidden="true">↗</span></Button>
-      </div>
-      <figure class="portrait-frame"><img src={portrait} width="800" height="1096" alt="Portrait placeholder for Vasanth" fetchpriority="high" /><figcaption>Portrait placeholder</figcaption></figure>
-    </section>
-
-    <section class="showreel shell" id="showreel" aria-labelledby="showreel-title">
-      <button class="reel-poster" type="button" aria-label="Play Vasanth's showreel"><img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=2000&q=88" width="2000" height="1125" alt="Empty cinema used as a showreel placeholder" /><span class="play-mark" aria-hidden="true">▶</span></button>
-      <div class="media-caption"><h2 id="showreel-title">A selection in motion</h2><button type="button" class="text-action" data-reel-action>Play showreel <span aria-hidden="true">↗</span></button></div>
-      <p class="placeholder-note" data-reel-note hidden>This space is ready for your showreel embed.</p>
-    </section>
-
-    <section class="work" id="work" aria-labelledby="work-title"><div class="shell">
-      <div class="section-heading"><h2 id="work-title">Selected collaborations</h2><p>Six clients. Film, motion and AI.</p></div>
-      <div class="client-tabs" role="tablist" aria-label="Client projects">
-        {clients.map((client,index)=><button id={`${client.id}-tab`} class="client-tab" type="button" role="tab" aria-selected={index===0?'true':'false'} aria-controls={`${client.id}-panel`} tabindex={index===0?0:-1} data-client-tab={client.id}>{client.tab}</button>)}
-      </div>
-      {clients.map((client,index)=><article class="client-panel" id={`${client.id}-panel`} role="tabpanel" aria-labelledby={`${client.id}-tab`} tabindex="0" hidden={index!==0} data-client-panel={client.id}>
-        <div class="client-intro"><div><h3>{client.tab} / {client.name}</h3><p class="services">{client.services}</p></div><p>{client.description}</p></div>
-        <figure class:list={['feature-film',{placeholder:!client.image}]}>
-          {client.image?<img src={client.image} width="1800" height="920" alt={client.alt} loading="lazy" />:<div class="empty-media" role="img" aria-label="Placeholder for an AI campaign film still">Your AI film still</div>}
-          <figcaption class="media-caption"><span>{client.title}</span><a href="#contact">Discuss this work <span aria-hidden="true">↗</span></a></figcaption>
-        </figure>
-        <div class="supporting-work" aria-label="Supporting work placeholders">
-          <figure><img src="https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1200&q=84" width="1200" height="720" alt="Architectural forms used as a motion design placeholder" loading="lazy" /><figcaption>Motion design study <span aria-hidden="true">↗</span></figcaption></figure>
-          <figure><div class="empty-media" role="img" aria-label="Placeholder for an AI compositing project">Your AI film still</div><figcaption>AI compositing study <span aria-hidden="true">↗</span></figcaption></figure>
-        </div>
-      </article>)}
-    </div></section>
-
-    <section class="toolkit" aria-labelledby="toolkit-title"><div class="shell toolkit-inner"><h2 id="toolkit-title">Toolkit</h2><ul>{tools.map(tool=><li>{tool}</li>)}</ul></div></section>
-    <section class="recognition shell" id="recognition" aria-labelledby="award-title">
-      <div class="award-image" role="img" aria-label="Placeholder for Vasanth's Best Editor award photograph"><span>Award photograph</span><small>Add your Best Editor award moment</small></div>
-      <div class="award-copy"><h2 id="award-title">Best Editor<br />Award</h2><p class="award-meta">[ Award organisation ] / [ Year ]</p><p>A proud moment in the journey. A reminder to keep creating work that connects, challenges, and stays with people.</p></div>
-    </section>
-    <section class="contact" id="contact" aria-labelledby="contact-title"><div class="shell"><h2 id="contact-title">Have something in mind?</h2><div class="contact-grid">
-      <a href={`mailto:${profile.email}`}><span>Email</span>{profile.email} <b aria-hidden="true">↗</b></a><a href={profile.linkedin}><span>LinkedIn</span>[ Your profile ] <b aria-hidden="true">↗</b></a><a href={profile.whatsapp}><span>WhatsApp</span>[ Your number ] <b aria-hidden="true">↗</b></a><a href={profile.instagram}><span>Instagram</span>[ @yourhandle ] <b aria-hidden="true">↗</b></a>
-    </div><footer><span>© {new Date().getFullYear()} Vasanth</span><a href="#top">Back to top ↑</a></footer></div></section>
+    <Hero />
+    <Showreel />
+    <WorkShowcase />
+    <Toolkit />
+    <Recognition />
+    <Contact />
   </main>
-  <script>
-    const tabs=Array.from(document.querySelectorAll<HTMLButtonElement>('[data-client-tab]'));
-    const panels=Array.from(document.querySelectorAll<HTMLElement>('[data-client-panel]'));
-    const activateTab=(tab:HTMLButtonElement,focus=false)=>{const id=tab.dataset.clientTab;tabs.forEach(item=>{const selected=item===tab;item.setAttribute('aria-selected',String(selected));item.tabIndex=selected?0:-1});panels.forEach(panel=>{panel.hidden=panel.dataset.clientPanel!==id});if(focus)tab.focus()};
-    tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activateTab(tab));tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const nextIndex=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;activateTab(tabs[nextIndex],true)})});
-    const reelNote=document.querySelector<HTMLElement>('[data-reel-note]');document.querySelectorAll<HTMLButtonElement>('.reel-poster,[data-reel-action]').forEach(button=>button.addEventListener('click',()=>{if(reelNote)reelNote.hidden=false}));
-  </script>
 </Layout>
