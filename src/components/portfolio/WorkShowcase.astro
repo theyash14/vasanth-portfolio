@@ -1,6 +1,4 @@
 ---
-import { Card } from '@/components/ui/card';
-import { Empty, EmptyTitle } from '@/components/ui/empty';
 import {
   Section,
   SectionContainer,
@@ -8,96 +6,260 @@ import {
   SectionTitle,
 } from '@/components/ui/section';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { clients } from '../../data/portfolio';
+import { bunnyStreamLibraryId, clients } from '../../data/portfolio';
+import BunnyVideo from './BunnyVideo.astro';
+
+const clientCollections = clients.map((client) => ({
+  ...client,
+  standardVideos: client.videos.filter((video) => video.format === 'video'),
+  reels: client.videos.filter((video) => video.format === 'reel'),
+}));
+
+const reelPreviewLimit = 4;
 ---
 
 <Section class="work" id="work" aria-labelledby="work-title">
   <SectionContainer class="shell max-w-none gap-0 px-0">
     <div class="section-heading">
-      <SectionTitle as="h2" class="work-title" id="work-title">
-        Selected collaborations
-      </SectionTitle>
+      <SectionTitle as="h2" class="work-title" id="work-title"> Client edits </SectionTitle>
       <SectionDescription class="work-description">
-        Six clients. Film, motion and AI.
+        Thirty-eight videos, organised by client and body of work.
       </SectionDescription>
     </div>
 
-    <Tabs defaultValue={clients[0]?.id} class="gap-0">
+    <Tabs defaultValue={clientCollections[0]?.id} class="gap-0">
       <TabsList variant="line" class="client-tabs h-auto w-full rounded-none p-0">
-        {clients.map((client) => (
+        {clientCollections.map((client) => (
           <TabsTrigger id={`${client.id}-tab`} class="client-tab" value={client.id}>
             {client.tab}
           </TabsTrigger>
         ))}
       </TabsList>
 
-      {clients.map((client, index) => (
+      {clientCollections.map((client, index) => (
         <TabsContent value={client.id} hidden={index !== 0}>
-          <Card class="client-panel rounded-none border-0 bg-transparent py-0 shadow-none ring-0">
-          <div class="client-intro">
-            <div>
-              <h3>
-                {client.tab} / {client.name}
-              </h3>
-              <p class="services">{client.services}</p>
+          <div class="client-panel">
+            <div class="client-intro">
+              <h3>{client.name}</h3>
+              <p>{client.summary}</p>
             </div>
-            <p>{client.description}</p>
+
+            <div class="media-groups">
+              {client.standardVideos.length > 0 && (
+                <section class="media-group" aria-labelledby={`${client.id}-videos-title`}>
+                  <div class="group-heading">
+                    <h4 id={`${client.id}-videos-title`}>Videos</h4>
+                    <p>{client.standardVideos.length} {client.standardVideos.length === 1 ? 'video' : 'videos'}</p>
+                  </div>
+                  <ul class="media-grid video-grid" aria-label={`${client.name} standard videos`}>
+                    {client.standardVideos.map((video, videoIndex) => (
+                      <li class="media-card" data-aspect={video.aspect}>
+                        <figure>
+                          {'bunnyVideoId' in video ? (
+                            <BunnyVideo
+                              libraryId={bunnyStreamLibraryId}
+                              videoId={video.bunnyVideoId}
+                              title={`${client.name}, video ${videoIndex + 1}`}
+                              aspect={video.aspect}
+                            />
+                          ) : (
+                            <div class="video-frame" data-video-frame data-status="idle">
+                              {/* biome-ignore lint/a11y/useMediaCaption: Caption files have not been supplied for the portfolio footage. */}
+                              <video
+                                data-client-video
+                                data-src={video.src}
+                                controls
+                                playsinline
+                                preload="none"
+                                aria-label={`${client.name}, video ${videoIndex + 1}`}
+                              >
+                                <p>
+                                  Your browser cannot play this video. <a href={video.src}>Open the video file</a>.
+                                </p>
+                              </video>
+                              <p class="video-status" aria-live="polite">
+                                <span data-loading>Loading video</span>
+                                <span data-error hidden>Video unavailable</span>
+                              </p>
+                            </div>
+                          )}
+                          <figcaption>{video.duration}</figcaption>
+                        </figure>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {client.reels.length > 0 && (
+                <section class="media-group" aria-labelledby={`${client.id}-reels-title`}>
+                  <div class="group-heading">
+                    <h4 id={`${client.id}-reels-title`}>Reels</h4>
+                    <p>{client.reels.length} {client.reels.length === 1 ? 'reel' : 'reels'}</p>
+                  </div>
+                  <ul
+                    class="media-grid reel-grid"
+                    id={`${client.id}-reels`}
+                    aria-label={`${client.name} reels`}
+                  >
+                    {client.reels.map((video, videoIndex) => (
+                      <li
+                        class="media-card"
+                        data-aspect={video.aspect}
+                        data-extra-reel={videoIndex >= reelPreviewLimit ? '' : undefined}
+                        hidden={videoIndex >= reelPreviewLimit}
+                      >
+                        <figure>
+                          {'bunnyVideoId' in video ? (
+                            <BunnyVideo
+                              libraryId={bunnyStreamLibraryId}
+                              videoId={video.bunnyVideoId}
+                              title={`${client.name}, reel ${videoIndex + 1}`}
+                              aspect={video.aspect}
+                            />
+                          ) : (
+                            <div class="video-frame" data-video-frame data-status="idle">
+                              <!-- biome-ignore lint/a11y/useMediaCaption: Caption files have not been supplied for the portfolio footage. -->
+                              <video
+                                data-client-video
+                                data-src={video.src}
+                                controls
+                                playsinline
+                                preload="none"
+                                aria-label={`${client.name}, reel ${videoIndex + 1}`}
+                              >
+                                <p>
+                                  Your browser cannot play this video. <a href={video.src}>Open the video file</a>.
+                                </p>
+                              </video>
+                              <p class="video-status" aria-live="polite">
+                                <span data-loading>Loading video</span>
+                                <span data-error hidden>Video unavailable</span>
+                              </p>
+                            </div>
+                          )}
+                          <figcaption>{video.duration}</figcaption>
+                        </figure>
+                      </li>
+                    ))}
+                  </ul>
+                  {client.reels.length > reelPreviewLimit && (
+                    <button
+                      class="reel-toggle"
+                      type="button"
+                      data-reel-toggle
+                      data-collapsed-label={`View all ${client.reels.length} reels`}
+                      data-expanded-label="Show fewer reels"
+                      aria-controls={`${client.id}-reels`}
+                      aria-expanded="false"
+                    >
+                      <span data-reel-toggle-label>View all {client.reels.length} reels</span>
+                    </button>
+                  )}
+                </section>
+              )}
+            </div>
           </div>
-
-          <figure class:list={['feature-film', { placeholder: !client.image }]}>
-            {client.image ? (
-              <img
-                src={client.image}
-                width="1800"
-                height="920"
-                alt={client.alt}
-                loading="lazy"
-              />
-            ) : (
-              <Empty
-                class="empty-media rounded-none border-0 p-0"
-                role="img"
-                aria-label="Placeholder for an AI campaign film still"
-              >
-                <EmptyTitle>Your AI film still</EmptyTitle>
-              </Empty>
-            )}
-            <figcaption class="media-caption">
-              <span>{client.title}</span>
-              <a href="#contact">
-                Discuss this work <span aria-hidden="true">↗</span>
-              </a>
-            </figcaption>
-          </figure>
-
-          <section class="supporting-work" aria-label="Supporting work placeholders">
-            <figure>
-              <img
-                src="https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=1200&q=84"
-                width="1200"
-                height="720"
-                alt="Architectural forms used as a motion design placeholder"
-                loading="lazy"
-              />
-              <figcaption>Motion design study <span aria-hidden="true">↗</span></figcaption>
-            </figure>
-            <figure>
-              <Empty
-                class="empty-media rounded-none border-0 p-0"
-                role="img"
-                aria-label="Placeholder for an AI compositing project"
-              >
-                <EmptyTitle>Your AI film still</EmptyTitle>
-              </Empty>
-              <figcaption>AI compositing study <span aria-hidden="true">↗</span></figcaption>
-            </figure>
-          </section>
-          </Card>
         </TabsContent>
       ))}
     </Tabs>
   </SectionContainer>
 </Section>
+
+<script>
+const galleries = document.querySelectorAll<HTMLElement>('.work');
+
+galleries.forEach((gallery) => {
+  if (gallery.dataset.galleryReady === 'true') return;
+  gallery.dataset.galleryReady = 'true';
+
+  const videos = Array.from(gallery.querySelectorAll<HTMLVideoElement>('[data-client-video]'));
+
+  const loadVideo = (video: HTMLVideoElement) => {
+    if (video.src || !video.dataset.src) return;
+
+    const frame = video.closest<HTMLElement>('[data-video-frame]');
+    if (frame) frame.dataset.status = 'loading';
+    video.src = video.dataset.src;
+    video.load();
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        if (entry.target instanceof HTMLVideoElement) loadVideo(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: '240px', threshold: 0.01 },
+  );
+
+  videos.forEach((video) => {
+    observer.observe(video);
+
+    video.addEventListener('loadedmetadata', () => {
+      const frame = video.closest<HTMLElement>('[data-video-frame]');
+      if (frame) frame.dataset.status = 'ready';
+    });
+
+    video.addEventListener('error', () => {
+      const frame = video.closest<HTMLElement>('[data-video-frame]');
+      if (!frame) return;
+      frame.dataset.status = 'error';
+      frame.querySelector<HTMLElement>('[data-loading]')?.setAttribute('hidden', '');
+      frame.querySelector<HTMLElement>('[data-error]')?.removeAttribute('hidden');
+    });
+
+    video.addEventListener('play', () => {
+      videos.forEach((otherVideo) => {
+        if (otherVideo !== video) otherVideo.pause();
+      });
+    });
+  });
+
+  gallery.querySelectorAll<HTMLButtonElement>('[data-reel-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const reelListId = button.getAttribute('aria-controls');
+      const reelList = reelListId ? gallery.querySelector<HTMLElement>(`#${reelListId}`) : null;
+      if (!reelList) return;
+
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      const nextExpanded = !isExpanded;
+      const extraReels = reelList.querySelectorAll<HTMLElement>('[data-extra-reel]');
+      const label = button.querySelector<HTMLElement>('[data-reel-toggle-label]');
+
+      extraReels.forEach((reel) => {
+        reel.hidden = !nextExpanded;
+        if (!nextExpanded) reel.querySelector<HTMLVideoElement>('[data-client-video]')?.pause();
+      });
+
+      button.setAttribute('aria-expanded', String(nextExpanded));
+      if (label) {
+        label.textContent = nextExpanded
+          ? (button.dataset.expandedLabel ?? 'Show fewer reels')
+          : (button.dataset.collapsedLabel ?? 'View all reels');
+      }
+    });
+  });
+
+  const panels = gallery.querySelectorAll<HTMLElement>('[data-slot="tabs-content"]');
+  const panelObserver = new MutationObserver((entries) => {
+    entries.forEach((entry) => {
+      const panel = entry.target as HTMLElement;
+      if (!panel.hidden) return;
+      panel.querySelectorAll<HTMLVideoElement>('[data-client-video]').forEach((video) => {
+        video.pause();
+      });
+    });
+  });
+
+  panels.forEach((panel) => {
+    panelObserver.observe(panel, { attributes: true, attributeFilter: ['hidden'] });
+  });
+});
+</script>
 
 <style>
 :global(.work) {
@@ -124,8 +286,8 @@ import { clients } from '../../data/portfolio';
 }
 
 :global(.client-tabs) {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
+  justify-content: flex-start;
   min-height: 56px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -138,9 +300,10 @@ import { clients } from '../../data/portfolio';
 }
 
 :global(.client-tab) {
-  min-width: 130px;
+  flex: 0 0 auto;
+  min-width: max-content;
   min-height: 56px;
-  padding: 0.9rem 0.5rem;
+  padding: 0.9rem clamp(0.8rem, 1.4vw, 1.25rem);
   border-bottom: 1px solid var(--border);
   color: var(--muted-foreground);
   cursor: pointer;
@@ -157,15 +320,12 @@ import { clients } from '../../data/portfolio';
 }
 
 :global(.client-panel) {
-  padding-top: 3rem;
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .client-intro {
-  margin-bottom: 3rem;
-  display: grid;
-  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.25fr);
-  gap: clamp(3rem, 8vw, 7rem);
-  align-items: start;
+  max-width: 40rem;
+  margin-bottom: clamp(2.25rem, 4vw, 3.5rem);
 }
 
 .client-intro h3 {
@@ -175,91 +335,134 @@ import { clients } from '../../data/portfolio';
 }
 
 .client-intro > p {
+  margin-top: 0.8rem;
   color: var(--muted-foreground);
   font-size: 1.02rem;
   line-height: 1.65;
 }
 
-.services {
-  margin-top: 1rem;
-  color: var(--muted-foreground);
-  font-size: 0.8rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+.media-groups {
+  display: grid;
+  gap: clamp(3.5rem, 7vw, 6rem);
 }
 
-:global(.empty-media) {
-  background: var(--portfolio-media);
-  color: var(--foreground);
-}
-
-:global(.feature-film > img),
-:global(.feature-film > .empty-media) {
-  width: 100%;
-  aspect-ratio: 2.18 / 1;
-  object-fit: cover;
-}
-
-:global(.feature-film > img) {
-  filter: saturate(0.72) sepia(0.06);
-}
-
-.media-caption {
-  min-height: 76px;
+.media-group {
   padding-top: 1.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
+  border-top: 1px solid var(--border);
 }
 
-.media-caption > span {
-  font-size: clamp(1.45rem, 2.2vw, 2rem);
-  font-weight: 450;
+.group-heading {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.group-heading h4 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 540;
   letter-spacing: -0.035em;
 }
 
-.media-caption a {
-  position: relative;
-  white-space: nowrap;
+.group-heading p {
+  color: var(--muted-foreground);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
 }
 
-.media-caption a::after {
-  content: "";
-  position: absolute;
-  right: 100%;
-  bottom: -0.3rem;
-  left: 0;
-  height: 1px;
-  background: currentColor;
-  transition: right 0.35s var(--portfolio-ease);
-}
-
-.media-caption a:hover::after {
-  right: 0;
-}
-
-.supporting-work {
-  margin-top: 1.75rem;
+.media-grid {
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  list-style: none;
 }
 
-:global(.supporting-work img),
-:global(.supporting-work .empty-media) {
+.video-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.reel-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #211317;
+}
+
+.reel-grid .video-frame {
+  aspect-ratio: 9 / 16;
+}
+
+.media-card[data-aspect="square"] .video-frame {
+  aspect-ratio: 1;
+}
+
+.video-frame video {
   width: 100%;
-  aspect-ratio: 1.78 / 1;
-  object-fit: cover;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #211317;
 }
 
-:global(.supporting-work img) {
-  filter: saturate(0.7);
+.video-status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  color: #f1ebdd;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  transition: opacity 0.25s var(--portfolio-ease);
 }
 
-.supporting-work figcaption {
-  padding-top: 1rem;
-  font-size: 1.2rem;
+.video-frame[data-status="idle"] .video-status,
+.video-frame[data-status="ready"] .video-status {
+  opacity: 0;
+}
+
+.video-frame[data-status="error"] .video-status {
+  background: #211317;
+}
+
+.media-card figcaption {
+  padding-top: 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.reel-toggle {
+  margin-top: 1.75rem;
+  padding: 0.7rem 0 0.45rem;
+  border-bottom: 1px solid currentColor;
+  color: var(--foreground);
+  font-size: 0.94rem;
+  font-weight: 570;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--portfolio-ease),
+    transform 0.2s var(--portfolio-ease);
+}
+
+.reel-toggle:hover {
+  color: color-mix(in srgb, var(--foreground) 75%, var(--muted-foreground));
+}
+
+.reel-toggle:active {
+  transform: translateY(1px);
+}
+
+.reel-toggle:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 5px;
 }
 
 @media (max-width: 700px) {
@@ -272,21 +475,25 @@ import { clients } from '../../data/portfolio';
   }
 
   :global(.client-tabs) {
-    grid-template-columns: repeat(6, 120px);
+    margin-inline: calc(var(--gutter) * -1);
+    width: calc(100% + (var(--gutter) * 2));
+    padding-inline: var(--gutter);
   }
 
   .client-intro {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
-  :global(.feature-film > img),
-  :global(.feature-film > .empty-media) {
-    aspect-ratio: 1.45 / 1;
+  .media-groups {
+    gap: 3.5rem;
   }
 
-  .supporting-work {
+  .video-grid {
     grid-template-columns: 1fr;
+  }
+
+  .reel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 </style>

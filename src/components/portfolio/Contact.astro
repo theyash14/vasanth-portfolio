@@ -1,14 +1,23 @@
 ---
-import { Item, ItemActions, ItemContent, ItemGroup, ItemTitle } from '@/components/ui/item';
+import ArrowUpIcon from '@lucide/astro/icons/arrow-up';
+import ArrowUpRightIcon from '@lucide/astro/icons/arrow-up-right';
+import BriefcaseBusinessIcon from '@lucide/astro/icons/briefcase-business';
+import CameraIcon from '@lucide/astro/icons/camera';
+import MailIcon from '@lucide/astro/icons/mail';
+import MessageCircleIcon from '@lucide/astro/icons/message-circle';
 import { Section, SectionContainer, SectionTitle } from '@/components/ui/section';
 import { Separator } from '@/components/ui/separator';
 import { profile } from '../../data/portfolio';
 
-const contactLinks = [
-  { label: 'Email', value: profile.email, href: `mailto:${profile.email}` },
-  { label: 'LinkedIn', value: '[ Your profile ]', href: profile.linkedin },
-  { label: 'WhatsApp', value: '[ Your number ]', href: profile.whatsapp },
-  { label: 'Instagram', value: '[ @yourhandle ]', href: profile.instagram },
+const socialLinks = [
+  {
+    label: 'LinkedIn',
+    value: '[ Your profile ]',
+    href: profile.linkedin,
+    icon: BriefcaseBusinessIcon,
+  },
+  { label: 'WhatsApp', value: '[ Your number ]', href: profile.whatsapp, icon: MessageCircleIcon },
+  { label: 'Instagram', value: '[ @yourhandle ]', href: profile.instagram, icon: CameraIcon },
 ];
 ---
 
@@ -18,26 +27,47 @@ const contactLinks = [
     <SectionTitle as="h2" class="contact-title" id="contact-title">
       Have something in mind?
     </SectionTitle>
-    <ItemGroup class="contact-grid">
-      {contactLinks.map((link) => (
-        <li class="list-none">
-          <Item
-            class="contact-link rounded-none border-0 px-0 py-0"
-            href={link.href}
-          >
-            <ItemContent>
-              <ItemTitle class="contact-label">{link.label}</ItemTitle>
-              <span>{link.value}</span>
-            </ItemContent>
-            <ItemActions><span aria-hidden="true">↗</span></ItemActions>
-          </Item>
-        </li>
-      ))}
-    </ItemGroup>
+
+    <div class="contact-layout">
+      <a
+        class="email-contact"
+        href={`mailto:${profile.email}`}
+        aria-label={`Email Vasanth at ${profile.email}`}
+      >
+        <MailIcon class="email-icon" size={32} stroke-width="1.5" aria-hidden="true" />
+        <div class="email-copy">
+          <span class="contact-kicker">Start with an email</span>
+          <strong>{profile.email}</strong>
+        </div>
+        <span class="email-action">
+          Tell me about the edit
+          <ArrowUpRightIcon size={22} stroke-width="1.5" aria-hidden="true" />
+        </span>
+      </a>
+
+      <ul class="social-list" aria-label="Social profiles">
+        {socialLinks.map(({ icon: Icon, ...link }) => (
+          <li>
+            <a class="social-link" href={link.href} aria-label={`${link.label}: ${link.value}`}>
+              <Icon class="social-icon" size={22} stroke-width="1.5" aria-hidden="true" />
+              <span class="social-copy">
+                <strong>{link.label}</strong>
+                <span>{link.value}</span>
+              </span>
+              <ArrowUpRightIcon class="link-arrow" size={20} stroke-width="1.5" aria-hidden="true" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
     <Separator class="footer-separator" />
     <footer>
       <span>© {new Date().getFullYear()} Vasanth</span>
-      <a href="#top">Back to top ↑</a>
+      <a href="#top">
+        Back to top
+        <ArrowUpIcon size={16} stroke-width="1.5" aria-hidden="true" />
+      </a>
     </footer>
   </SectionContainer>
 </Section>
@@ -56,29 +86,128 @@ const contactLinks = [
   letter-spacing: -0.06em;
 }
 
-:global(.contact-grid) {
+.contact-layout {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.65fr) minmax(18rem, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
 }
 
-:global(.contact-link) {
-  min-height: 96px;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border);
-  font-size: 1.15rem;
+.email-contact {
+  min-height: 21rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  background: var(--portfolio-media);
+  color: var(--foreground);
+  outline-offset: 5px;
+  transition:
+    background-color 0.25s var(--portfolio-ease),
+    transform 0.25s var(--portfolio-ease);
+}
+
+.email-contact:hover {
+  background: color-mix(in srgb, var(--portfolio-media) 82%, var(--foreground));
+}
+
+.email-contact:active,
+.social-link:active {
+  transform: translateY(1px);
+}
+
+.email-contact:focus-visible,
+.social-link:focus-visible,
+footer a:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 4px;
+}
+
+.email-icon,
+.social-icon {
+  flex: 0 0 auto;
+}
+
+.email-copy {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.contact-kicker {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+.email-copy strong {
+  max-width: 18ch;
+  font-size: clamp(1.7rem, 3.5vw, 3.2rem);
+  font-weight: 480;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  overflow-wrap: anywhere;
+}
+
+.email-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1rem;
+  font-weight: 560;
+}
+
+.email-action :global(svg),
+.link-arrow {
   transition: transform 0.25s var(--portfolio-ease);
 }
 
-:global(.contact-link:hover) {
-  transform: translateY(-3px);
+.email-contact:hover .email-action :global(svg),
+.social-link:hover .link-arrow {
+  transform: translate(3px, -3px);
 }
 
-:global(.contact-label) {
-  display: block;
-  margin-bottom: 1rem;
+.social-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-list li {
+  border-top: 1px solid var(--border);
+}
+
+.social-link {
+  min-height: 7rem;
+  padding: 1.25rem 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.15rem;
+  outline-offset: 4px;
+  transition:
+    color 0.25s var(--portfolio-ease),
+    transform 0.2s var(--portfolio-ease);
+}
+
+.social-link:hover {
+  color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground));
+}
+
+.social-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.social-copy strong {
+  font-size: 1.12rem;
+  font-weight: 560;
+}
+
+.social-copy > span {
   color: var(--muted-foreground);
-  font-size: 0.86rem;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 footer {
@@ -90,13 +219,24 @@ footer {
   font-size: 0.9rem;
 }
 
+footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 :global(.footer-separator) {
   margin-top: 5rem;
 }
 
-@media (max-width: 900px) {
-  :global(.contact-grid) {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 800px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .email-contact {
+    min-height: 17rem;
   }
 }
 
@@ -110,13 +250,25 @@ footer {
     font-size: clamp(3rem, 14vw, 4rem);
   }
 
-  :global(.contact-grid) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .contact-layout {
+    gap: 2.5rem;
   }
 
-  :global(.contact-link) {
-    min-height: 78px;
+  .email-contact {
+    min-height: 15rem;
+    padding: 1.35rem;
+  }
+
+  .email-copy strong {
+    font-size: clamp(1.65rem, 8vw, 2.25rem);
+  }
+
+  .social-link {
+    min-height: 6rem;
+  }
+
+  :global(.footer-separator) {
+    margin-top: 4rem;
   }
 }
 </style>
