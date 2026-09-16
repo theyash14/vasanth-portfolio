@@ -1,9 +1,9 @@
 export const profile = {
-  name: 'Vasanth',
-  email: 'you@example.com',
-  linkedin: '#',
+  name: 'Vasanth Srinivas',
+  email: 'vasanthramesh.che@gmail.com',
+  linkedin: 'https://www.linkedin.com/invasanth-srinivas07/',
   whatsapp: '#',
-  instagram: '#',
+  instagram: 'https://www.instagram.com/meisvasanth/',
   introduction:
     'I’m Vasanth, a video editor specialising in high-impact edits, motion graphics, colour, and AI-assisted post-production. I work across brand content, social campaigns, personal branding, and digital ads, shaping raw footage into clear, engaging videos. My toolkit includes DaVinci Resolve, Premiere Pro, After Effects, Photoshop, and Blender 3D.',
 };
@@ -32,6 +32,11 @@ export const tools = [
 ];
 
 export const bunnyStreamLibraryId = '754279';
+
+export const showreel = {
+  bunnyVideoId: 'fdea8a89-0387-4869-812b-7be2f848c679',
+  title: "Vasanth's showreel",
+};
 
 export const personalVideos = [
   {

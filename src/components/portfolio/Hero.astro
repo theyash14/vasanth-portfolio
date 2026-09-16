@@ -76,9 +76,21 @@ import PortfolioButton from "./PortfolioButton.astro";
 
     .portrait-frame img {
         width: 100%;
+        display: block;
         aspect-ratio: 400 / 548;
         object-fit: cover;
         object-position: center 20%;
+        background: var(--portfolio-media);
+        transform: scale(1.08);
+        transform-origin: center 45%;
+    }
+
+    .portrait-frame {
+        width: 100%;
+        margin: 0;
+        align-self: start;
+        overflow: hidden;
+        border-radius: var(--portfolio-media-radius);
         background: var(--portfolio-media);
     }
 
@@ -125,6 +137,7 @@ import PortfolioButton from "./PortfolioButton.astro";
 
         .portrait-frame {
             order: 4;
+            margin-top: -2rem;
         }
 
         :global(.introduction) {

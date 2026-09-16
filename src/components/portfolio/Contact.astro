@@ -1,274 +1,546 @@
 ---
-import ArrowUpIcon from '@lucide/astro/icons/arrow-up';
-import ArrowUpRightIcon from '@lucide/astro/icons/arrow-up-right';
-import BriefcaseBusinessIcon from '@lucide/astro/icons/briefcase-business';
-import CameraIcon from '@lucide/astro/icons/camera';
-import MailIcon from '@lucide/astro/icons/mail';
-import MessageCircleIcon from '@lucide/astro/icons/message-circle';
-import { Section, SectionContainer, SectionTitle } from '@/components/ui/section';
-import { Separator } from '@/components/ui/separator';
-import { profile } from '../../data/portfolio';
+import { Icon } from "astro-icon/components";
+import { Button } from "@/components/ui/button";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+    Section,
+    SectionContainer,
+    SectionTitle,
+} from "@/components/ui/section";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { profile } from "../../data/portfolio";
 
 const socialLinks = [
-  {
-    label: 'LinkedIn',
-    value: '[ Your profile ]',
-    href: profile.linkedin,
-    icon: BriefcaseBusinessIcon,
-  },
-  { label: 'WhatsApp', value: '[ Your number ]', href: profile.whatsapp, icon: MessageCircleIcon },
-  { label: 'Instagram', value: '[ @yourhandle ]', href: profile.instagram, icon: CameraIcon },
+    {
+        label: "LinkedIn",
+        href: profile.linkedin,
+        icon: "thesvg-color:linkedin",
+    },
+    {
+        label: "WhatsApp",
+        href: profile.whatsapp,
+        icon: "thesvg-color:whatsapp",
+    },
+    {
+        label: "Instagram",
+        href: profile.instagram,
+        icon: "thesvg-color:instagram",
+    },
+].filter((link) => link.href && link.href !== "#");
+
+const projectTypes = [
+    "Brand film",
+    "Social reel",
+    "Personal brand",
+    "Motion graphics",
+    "AI-assisted edit",
+    "Other",
 ];
 ---
 
-<Section class="contact gap-0 py-0" id="contact" aria-labelledby="contact-title">
-  <Separator class="bg-foreground" />
-  <SectionContainer class="shell max-w-none gap-0 px-0">
-    <SectionTitle as="h2" class="contact-title" id="contact-title">
-      Have something in mind?
-    </SectionTitle>
+<Section
+    class="contact gap-0 py-0"
+    id="contact"
+    aria-labelledby="contact-title"
+>
+    <Separator class="bg-foreground" />
+    <SectionContainer class="shell max-w-none gap-0 px-0">
+        <div class="contact-layout">
+            <div class="contact-introduction">
+                <header class="contact-heading">
+                    <SectionTitle
+                        as="h2"
+                        class="contact-title"
+                        id="contact-title"
+                    >
+                        Your next
+                        <br />
+                        great edit.
+                        <span class="title-invitation">Let’s talk.</span>
+                    </SectionTitle>
+                    <p>
+                        Have footage, an idea, or a story to tell? Let’s give it
+                        the edit it deserves.
+                    </p>
+                </header>
+                <div class="direct-contact">
+                    <span class="aside-label">Or drop me a line</span>
+                    <a href={`mailto:${profile.email}`}>
+                        <Icon
+                            name="reicon:envelope"
+                            class="size-[21px]"
+                            aria-hidden="true"
+                        />
+                        <span>{profile.email}</span>
+                        <Icon
+                            name="reicon:arrow-up-right"
+                            class="size-[20px]"
+                            aria-hidden="true"
+                        />
+                    </a>
+                </div>
+                {socialLinks.length > 0 && (
+                    <ul class="social-links" aria-label="Social profiles">
+                        {socialLinks.map(({ icon, href, label }) => (
+                            <li>
+                                <a href={href}>
+                                    <Icon
+                                        name={icon}
+                                        class="size-[18px]"
+                                        aria-hidden="true"
+                                    />
+                                    {label}
+                                    <Icon
+                                        name="reicon:arrow-up-right"
+                                        class="size-[16px]"
+                                        aria-hidden="true"
+                                    />
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+            <div class="form-panel">
+                <div class="form-intro">
+                    <h3>A little about your project</h3>
+                    <p>A few details are all we need to start.</p>
+                </div>
 
-    <div class="contact-layout">
-      <a
-        class="email-contact"
-        href={`mailto:${profile.email}`}
-        aria-label={`Email Vasanth at ${profile.email}`}
-      >
-        <MailIcon class="email-icon" size={32} stroke-width="1.5" aria-hidden="true" />
-        <div class="email-copy">
-          <span class="contact-kicker">Start with an email</span>
-          <strong>{profile.email}</strong>
+                <Form
+                    class="contact-form"
+                    data-contact-form
+                    data-contact-email={profile.email}
+                >
+                    <FieldGroup class="contact-fields">
+                        <div class="field-row">
+                            <Field>
+                                <FieldLabel for="contact-name">
+                                    Your name
+                                </FieldLabel>
+                                <Input
+                                    id="contact-name"
+                                    name="name"
+                                    autocomplete="name"
+                                    required
+                                />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel for="contact-email">
+                                    Email address
+                                </FieldLabel>
+                                <Input
+                                    id="contact-email"
+                                    name="email"
+                                    type="email"
+                                    autocomplete="email"
+                                    inputmode="email"
+                                    required
+                                />
+                            </Field>
+                        </div>
+
+                        <fieldset class="project-choices">
+                            <legend>What are we making?</legend>
+                            <div class="choice-list">
+                                {projectTypes.map((type) => (
+                                    <label class="project-choice">
+                                        <input
+                                            type="radio"
+                                            name="projectType"
+                                            value={type}
+                                            required
+                                        />
+                                        <span>{type}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </fieldset>
+
+                        <Field>
+                            <FieldLabel for="contact-deadline">
+                                Deadline, if fixed
+                            </FieldLabel>
+                            <Input
+                                id="contact-deadline"
+                                name="deadline"
+                                placeholder="e.g. 20 October"
+                            />
+                        </Field>
+                        <Field>
+                            <FieldLabel for="contact-details">
+                                Project details
+                            </FieldLabel>
+                            <Textarea
+                                id="contact-details"
+                                name="details"
+                                rows={6}
+                                placeholder="The idea, the audience, the feeling. Reference links welcome."
+                                required
+                            />
+                        </Field>
+                    </FieldGroup>
+
+                    <div class="form-action">
+                        <Button class="submit-button" type="submit">
+                            Let’s make it happen
+                            <Icon
+                                name="reicon:send"
+                                class="size-[21px]"
+                                aria-hidden="true"
+                            />
+                        </Button>
+                        <p>
+                            Opens a draft in your email app. You review and
+                            send.
+                        </p>
+                    </div>
+                </Form>
+            </div>
         </div>
-        <span class="email-action">
-          Tell me about the edit
-          <ArrowUpRightIcon size={22} stroke-width="1.5" aria-hidden="true" />
-        </span>
-      </a>
 
-      <ul class="social-list" aria-label="Social profiles">
-        {socialLinks.map(({ icon: Icon, ...link }) => (
-          <li>
-            <a class="social-link" href={link.href} aria-label={`${link.label}: ${link.value}`}>
-              <Icon class="social-icon" size={22} stroke-width="1.5" aria-hidden="true" />
-              <span class="social-copy">
-                <strong>{link.label}</strong>
-                <span>{link.value}</span>
-              </span>
-              <ArrowUpRightIcon class="link-arrow" size={20} stroke-width="1.5" aria-hidden="true" />
+        <Separator class="footer-separator" />
+        <footer>
+            <span>© {new Date().getFullYear()} Vasanth</span>
+            <a href="#top">
+                Back to top
+                <Icon
+                    name="reicon:arrow-up"
+                    class="size-[16px]"
+                    aria-hidden="true"
+                />
             </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <Separator class="footer-separator" />
-    <footer>
-      <span>© {new Date().getFullYear()} Vasanth</span>
-      <a href="#top">
-        Back to top
-        <ArrowUpIcon size={16} stroke-width="1.5" aria-hidden="true" />
-      </a>
-    </footer>
-  </SectionContainer>
+        </footer>
+    </SectionContainer>
 </Section>
 
+<script>
+    const contactForm = document.querySelector<HTMLFormElement>(
+        "[data-contact-form]",
+    );
+
+    if (contactForm && contactForm.dataset.contactReady !== "true") {
+        contactForm.dataset.contactReady = "true";
+
+        contactForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!contactForm.reportValidity()) return;
+
+            const formData = new FormData(contactForm);
+            const recipient = contactForm.dataset.contactEmail ?? "";
+            const name = String(formData.get("name") ?? "").trim();
+            const email = String(formData.get("email") ?? "").trim();
+            const projectType = String(
+                formData.get("projectType") ?? "",
+            ).trim();
+            const deadline =
+                String(formData.get("deadline") ?? "").trim() || "Flexible";
+            const details = String(formData.get("details") ?? "").trim();
+            const subject = `Portfolio inquiry: ${projectType} from ${name}`;
+            const body = [
+                `Name: ${name}`,
+                `Email: ${email}`,
+                `Project type: ${projectType}`,
+                `Deadline: ${deadline}`,
+                "",
+                "Project details:",
+                details,
+            ].join("\n");
+
+            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+    }
+</script>
+
 <style>
-:global(.contact) {
-  padding-top: 6rem;
-}
-
-:global(.contact-title) {
-  max-width: 14ch;
-  margin-bottom: 4.5rem;
-  font-size: clamp(3.5rem, 6vw, 5.4rem);
-  font-weight: 450;
-  line-height: 0.96;
-  letter-spacing: -0.06em;
-}
-
-.contact-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(18rem, 1fr);
-  gap: clamp(2rem, 4vw, 4rem);
-}
-
-.email-contact {
-  min-height: 21rem;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem;
-  background: var(--portfolio-media);
-  color: var(--foreground);
-  outline-offset: 5px;
-  transition:
-    background-color 0.25s var(--portfolio-ease),
-    transform 0.25s var(--portfolio-ease);
-}
-
-.email-contact:hover {
-  background: color-mix(in srgb, var(--portfolio-media) 82%, var(--foreground));
-}
-
-.email-contact:active,
-.social-link:active {
-  transform: translateY(1px);
-}
-
-.email-contact:focus-visible,
-.social-link:focus-visible,
-footer a:focus-visible {
-  outline: 2px solid var(--foreground);
-  outline-offset: 4px;
-}
-
-.email-icon,
-.social-icon {
-  flex: 0 0 auto;
-}
-
-.email-copy {
-  display: grid;
-  gap: 0.8rem;
-}
-
-.contact-kicker {
-  color: var(--muted-foreground);
-  font-size: 0.9rem;
-}
-
-.email-copy strong {
-  max-width: 18ch;
-  font-size: clamp(1.7rem, 3.5vw, 3.2rem);
-  font-weight: 480;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  overflow-wrap: anywhere;
-}
-
-.email-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 1rem;
-  font-weight: 560;
-}
-
-.email-action :global(svg),
-.link-arrow {
-  transition: transform 0.25s var(--portfolio-ease);
-}
-
-.email-contact:hover .email-action :global(svg),
-.social-link:hover .link-arrow {
-  transform: translate(3px, -3px);
-}
-
-.social-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.social-list li {
-  border-top: 1px solid var(--border);
-}
-
-.social-link {
-  min-height: 7rem;
-  padding: 1.25rem 0;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1.15rem;
-  outline-offset: 4px;
-  transition:
-    color 0.25s var(--portfolio-ease),
-    transform 0.2s var(--portfolio-ease);
-}
-
-.social-link:hover {
-  color: color-mix(in srgb, var(--foreground) 78%, var(--muted-foreground));
-}
-
-.social-copy {
-  min-width: 0;
-  display: grid;
-  gap: 0.45rem;
-}
-
-.social-copy strong {
-  font-size: 1.12rem;
-  font-weight: 560;
-}
-
-.social-copy > span {
-  color: var(--muted-foreground);
-  font-size: 0.9rem;
-  overflow-wrap: anywhere;
-}
-
-footer {
-  min-height: 90px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--muted-foreground);
-  font-size: 0.9rem;
-}
-
-footer a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-:global(.footer-separator) {
-  margin-top: 5rem;
-}
-
-@media (max-width: 800px) {
-  .contact-layout {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-
-  .email-contact {
-    min-height: 17rem;
-  }
-}
-
-@media (max-width: 700px) {
-  :global(.contact) {
-    padding-top: 5rem;
-  }
-
-  :global(.contact-title) {
-    margin-bottom: 3rem;
-    font-size: clamp(3rem, 14vw, 4rem);
-  }
-
-  .contact-layout {
-    gap: 2.5rem;
-  }
-
-  .email-contact {
-    min-height: 15rem;
-    padding: 1.35rem;
-  }
-
-  .email-copy strong {
-    font-size: clamp(1.65rem, 8vw, 2.25rem);
-  }
-
-  .social-link {
-    min-height: 6rem;
-  }
-
-  :global(.footer-separator) {
-    margin-top: 4rem;
-  }
-}
+    :global(.contact) {
+        padding-top: 6rem;
+    }
+    .contact-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(3rem, 8vw, 8rem);
+        padding-top: clamp(3rem, 6vw, 6rem);
+    }
+    .contact-introduction {
+        min-width: 0;
+    }
+    :global(.contact-title) {
+        font-size: clamp(3.6rem, 6.3vw, 6rem);
+        font-weight: 450;
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+    }
+    .title-invitation {
+        display: block;
+        margin-top: 0.18em;
+        color: var(--portfolio-player-accent);
+    }
+    .contact-heading p {
+        max-width: 32ch;
+        margin-top: 2rem;
+        color: var(--muted-foreground);
+        font-size: 1.08rem;
+        line-height: 1.7;
+    }
+    .direct-contact {
+        margin-top: clamp(3rem, 5vw, 5rem);
+    }
+    .aside-label {
+        display: block;
+        margin-bottom: 0.9rem;
+        color: var(--muted-foreground);
+        font-size: 0.85rem;
+    }
+    .direct-contact a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: fit-content;
+        max-width: 100%;
+        font-size: clamp(1rem, 1.7vw, 1.4rem);
+        letter-spacing: -0.025em;
+    }
+    .direct-contact a span {
+        overflow-wrap: anywhere;
+        min-width: 0;
+    }
+    .direct-contact a :global(svg) {
+        flex-shrink: 0;
+    }
+    .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+        padding: 0;
+        margin-top: 2rem;
+        list-style: none;
+    }
+    .social-links a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+    }
+    .direct-contact a :global(svg:last-child),
+    .social-links a :global(svg:last-child) {
+        transition: transform 0.2s var(--portfolio-ease);
+    }
+    .direct-contact a:hover :global(svg:last-child),
+    .social-links a:hover :global(svg:last-child) {
+        transform: translate(2px, -2px);
+    }
+    .form-panel {
+        min-width: 0;
+        padding-top: 0.45rem;
+    }
+    .form-intro {
+        margin-bottom: 2.5rem;
+    }
+    .form-intro h3 {
+        font-size: clamp(1.5rem, 2.2vw, 2rem);
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -0.045em;
+    }
+    .form-intro p {
+        margin-top: 0.6rem;
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+    }
+    :global(.contact-form) {
+        gap: 2rem;
+    }
+    :global(.contact-fields) {
+        gap: 1.8rem;
+    }
+    .field-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+    :global(.contact-form [data-slot="field"]) {
+        gap: 0.65rem;
+    }
+    :global(.contact-form [data-slot="field-label"]),
+    .project-choices legend {
+        font-size: 0.85rem;
+        font-weight: 550;
+        color: var(--foreground);
+    }
+    :global(.contact-form [data-slot="input"]),
+    :global(.contact-form [data-slot="textarea"]) {
+        width: 100%;
+        min-height: 3.1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--portfolio-media-radius);
+        background: color-mix(in srgb, var(--background) 65%, var(--secondary));
+        color: var(--foreground);
+        box-shadow: none;
+        padding: 0.8rem 0.9rem;
+        font: inherit;
+        font-size: 1rem;
+        outline: none;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+    :global(.contact-form [data-slot="textarea"]) {
+        min-height: 8rem;
+        resize: vertical;
+        line-height: 1.5;
+    }
+    :global(.contact-form [data-slot="input"]:focus-visible),
+    :global(.contact-form [data-slot="textarea"]:focus-visible) {
+        border-color: var(--foreground);
+        box-shadow: 0 0 0 2px var(--foreground);
+    }
+    :global(.contact-form [data-slot="input"]::placeholder),
+    :global(.contact-form [data-slot="textarea"]::placeholder) {
+        color: var(--muted-foreground);
+        opacity: 1;
+    }
+    .project-choices {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+    }
+    .project-choices legend {
+        margin-bottom: 0.85rem;
+    }
+    .choice-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+    .project-choice {
+        position: relative;
+        cursor: pointer;
+    }
+    .project-choice input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+    .project-choice span {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0.65rem 0.85rem;
+        border: 1px solid var(--border);
+        border-radius: var(--portfolio-media-radius);
+        font-size: 0.83rem;
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease;
+    }
+    .project-choice:hover span {
+        border-color: var(--foreground);
+    }
+    .project-choice input:checked + span {
+        background: var(--foreground);
+        color: var(--background);
+        border-color: var(--foreground);
+    }
+    .project-choice input:focus-visible + span {
+        outline: 2px solid var(--foreground);
+        outline-offset: 3px;
+    }
+    .form-action {
+        display: grid;
+        gap: 0.9rem;
+    }
+    :global(.submit-button) {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: auto;
+        min-height: 3.5rem;
+        padding: 1rem 1.2rem;
+        border-radius: var(--portfolio-media-radius);
+        background: var(--foreground);
+        color: var(--background);
+        font-size: 1rem;
+        font-weight: 500;
+        box-shadow: none;
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+    :global(.submit-button:hover) {
+        background: color-mix(
+            in srgb,
+            var(--foreground) 88%,
+            var(--background)
+        );
+    }
+    :global(.submit-button:active) {
+        transform: translateY(1px);
+    }
+    .form-action p {
+        color: var(--muted-foreground);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+    :global(.footer-separator) {
+        margin-top: clamp(4rem, 7vw, 7rem);
+    }
+    footer {
+        min-height: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        color: var(--muted-foreground);
+        font-size: 0.85rem;
+    }
+    footer a[href="#top"] {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        gap: 0.45rem;
+    }
+    @media (max-width: 900px) {
+        .contact-layout {
+            grid-template-columns: 1fr;
+            gap: 3.5rem;
+        }
+        :global(.contact-title) {
+            font-size: clamp(3.7rem, 9vw, 5.5rem);
+        }
+        .contact-heading p {
+            max-width: 42ch;
+        }
+        .direct-contact {
+            margin-top: 2rem;
+        }
+        .form-panel {
+            border-top: 1px solid var(--border);
+            padding-top: 2.5rem;
+        }
+    }
+    @media (max-width: 540px) {
+        :global(.contact) {
+            padding-top: 4rem;
+        }
+        :global(.contact-title) {
+            font-size: clamp(3.1rem, 13vw, 4.5rem);
+        }
+        .field-row {
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+        }
+        .form-intro {
+            margin-bottom: 2rem;
+        }
+    }
 </style>

@@ -63,6 +63,12 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.13
         version: 2.5.13
+      '@iconify-json/reicon':
+        specifier: ^1.2.4
+        version: 1.2.4
+      '@iconify-json/thesvg':
+        specifier: ^1.2.6
+        version: 1.2.6
       '@iconify-json/thesvg-color':
         specifier: ^1.2.9
         version: 1.2.9
@@ -859,8 +865,14 @@ packages:
     peerDependencies:
       hono: ^4
 
+  '@iconify-json/reicon@1.2.4':
+    resolution: {integrity: sha512-fDKTz5Y8WZLPr/np3R5cRCx2S14qP/+aiKMNk9EYrGhoeKa0S0WBjR0X7vwn6qRtFskjAaNNpOAU+SMeC5ItUQ==}
+
   '@iconify-json/thesvg-color@1.2.9':
     resolution: {integrity: sha512-qk2WOVxejUpD4yn4SW25ilP+aSc+MZjjwnd06ObJ83utZXY7VUV7xQNYFhmJcNvziJkDvJFR6OT9RSJJ3qh99A==}
+
+  '@iconify-json/thesvg@1.2.6':
+    resolution: {integrity: sha512-XHsCmvPWf1aVS/MMzlEt1WTvRM9goUS/dlRKYpWSQxQwjpg6xo1Y/r4ZGTIxY26t0gWiTzoNuAueTU0+dkQA/A==}
 
   '@iconify/tools@5.0.14':
     resolution: {integrity: sha512-wJ4ZE3/HZh2iBqLwG+8FOMHe7CMJAJqwSXZSpPwMdj1gZM3Z4t2hbQMVw4Vm45oQ985qn0g89PUIcDEdKTheBA==}
@@ -3969,7 +3981,15 @@ snapshots:
     dependencies:
       hono: 4.13.7
 
+  '@iconify-json/reicon@1.2.4':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/thesvg-color@1.2.9':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/thesvg@1.2.6':
     dependencies:
       '@iconify/types': 2.0.0
 

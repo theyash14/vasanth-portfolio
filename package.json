@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.13",
+    "@iconify-json/reicon": "^1.2.4",
+    "@iconify-json/thesvg": "^1.2.6",
     "@iconify-json/thesvg-color": "^1.2.9"
   }
 }

@@ -1,97 +1,38 @@
 ---
-import { Button } from '@/components/ui/button';
 import { Section } from '@/components/ui/section';
+import { bunnyStreamLibraryId, showreel } from '../../data/portfolio';
+import BunnyVideo from './BunnyVideo.astro';
 ---
 
 <Section class="showreel shell gap-0" id="showreel" aria-labelledby="showreel-title">
-  <Button
-    class="reel-poster block h-auto w-full rounded-none border-0 p-0"
-    type="button"
-    aria-label="Play Vasanth's showreel"
-  >
-    <img
-      src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=2000&q=88"
-      width="2000"
-      height="1125"
-      alt="Empty cinema used as a showreel placeholder"
-    >
-    <span class="play-mark" aria-hidden="true">▶</span>
-  </Button>
+  <BunnyVideo
+    class="showreel-player"
+    libraryId={bunnyStreamLibraryId}
+    videoId={showreel.bunnyVideoId}
+    title={showreel.title}
+    aspect="landscape"
+    muted={false}
+    preload={true}
+  />
   <div class="media-caption">
     <h2 id="showreel-title">A selection in motion</h2>
-    <Button type="button" variant="link" class="text-action h-auto p-0" data-reel-action>
-      Play showreel <span aria-hidden="true">↗</span>
-    </Button>
   </div>
-  <p class="placeholder-note" data-reel-note hidden>This space is ready for your showreel embed.</p>
 </Section>
-
-<script>
-const reelNote = document.querySelector<HTMLElement>('[data-reel-note]');
-const reelActions = document.querySelectorAll<HTMLButtonElement>(
-  '.reel-poster, [data-reel-action]',
-);
-
-reelActions.forEach((button) => {
-  button.addEventListener('click', () => {
-    if (reelNote) reelNote.hidden = false;
-  });
-});
-</script>
 
 <style>
 :global(.showreel) {
   padding-block: 5rem 8rem;
 }
 
-:global(.reel-poster) {
-  position: relative;
-  overflow: hidden;
-  background: var(--portfolio-media);
-  cursor: pointer;
-}
-
-:global(.reel-poster) img {
-  width: 100%;
-  aspect-ratio: 2.25 / 1;
-  object-fit: cover;
-  filter: saturate(0.6) sepia(0.08) contrast(1.06);
-  transition:
-    transform 0.9s var(--portfolio-ease),
-    filter 0.5s var(--portfolio-ease);
-}
-
-:global(.reel-poster:hover) img {
-  transform: scale(1.018);
-  filter: saturate(0.85) contrast(1.06);
-}
-
-.play-mark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  display: grid;
-  place-items: center;
-  width: 72px;
-  aspect-ratio: 1;
-  background: var(--background);
-  color: var(--foreground);
-  font-size: 1.1rem;
-  transition: transform 0.3s var(--portfolio-ease);
-}
-
-:global(.reel-poster:hover) .play-mark {
-  transform: scale(1.08);
+:global(.showreel-player) {
+  aspect-ratio: 16 / 9;
 }
 
 .media-caption {
   min-height: 68px;
   padding-top: 1.25rem;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  gap: 2rem;
 }
 
 h2 {
@@ -100,54 +41,13 @@ h2 {
   letter-spacing: -0.035em;
 }
 
-:global(.text-action) {
-  position: relative;
-  cursor: pointer;
-}
-
-:global(.text-action)::after {
-  content: "";
-  position: absolute;
-  right: 100%;
-  bottom: -0.3rem;
-  left: 0;
-  height: 1px;
-  background: currentColor;
-  transition: right 0.35s var(--portfolio-ease);
-}
-
-:global(.text-action:hover)::after {
-  right: 0;
-}
-
-.placeholder-note {
-  width: max-content;
-  margin-left: auto;
-  color: var(--muted-foreground);
-  font-size: 0.9rem;
-}
-
 @media (max-width: 700px) {
   :global(.showreel) {
     padding-block: 1rem 5.5rem;
   }
 
-  :global(.reel-poster) img {
-    aspect-ratio: 1.55 / 1;
-  }
-
-  .play-mark {
-    width: 56px;
-  }
-
   .media-caption {
-    min-height: 92px;
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-
-  .placeholder-note {
-    margin-left: 0;
+    min-height: 72px;
   }
 }
 </style>
