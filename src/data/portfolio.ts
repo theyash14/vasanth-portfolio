@@ -50,6 +50,19 @@ export const personalVideos = [
   },
 ];
 
+type PortfolioClient = {
+  id: string;
+  tab: string;
+  name: string;
+  summary: string;
+  videos: Array<{
+    bunnyVideoId: string;
+    duration: string;
+    format: 'video' | 'reel';
+    aspect: 'landscape' | 'portrait' | 'square';
+  }>;
+};
+
 export const clients = [
   {
     id: 'bharath-benz',
@@ -359,4 +372,4 @@ export const clients = [
       },
     ],
   },
-];
+] satisfies PortfolioClient[];

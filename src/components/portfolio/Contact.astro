@@ -11,34 +11,28 @@ import {
 } from "@/components/ui/section";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { PROJECT_TYPES } from "@/lib/contact";
 import { profile } from "../../data/portfolio";
 
 const socialLinks = [
     {
         label: "LinkedIn",
         href: profile.linkedin,
-        icon: "thesvg-color:linkedin",
+        icon: "linkedin",
     },
     {
         label: "WhatsApp",
         href: profile.whatsapp,
-        icon: "thesvg-color:whatsapp",
+        icon: "thesvg:whatsapp",
     },
     {
         label: "Instagram",
         href: profile.instagram,
-        icon: "thesvg-color:instagram",
+        icon: "thesvg:instagram",
     },
 ].filter((link) => link.href && link.href !== "#");
 
-const projectTypes = [
-    "Brand film",
-    "Social reel",
-    "Personal brand",
-    "Motion graphics",
-    "AI-assisted edit",
-    "Other",
-];
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim();
 ---
 
 <Section
@@ -113,25 +107,31 @@ const projectTypes = [
                 <Form
                     class="contact-form"
                     data-contact-form
-                    data-contact-email={profile.email}
+                    method="post"
+                    action="/api/contact"
+                    aria-busy="false"
                 >
                     <FieldGroup class="contact-fields">
                         <div class="field-row">
                             <Field>
                                 <FieldLabel for="contact-name">
-                                    Your name
+                                    {" "}
+                                    Your name{" "}
                                 </FieldLabel>
                                 <Input
                                     id="contact-name"
                                     name="name"
                                     autocomplete="name"
+                                    minlength={2}
+                                    maxlength={80}
                                     required
                                 />
                             </Field>
 
                             <Field>
                                 <FieldLabel for="contact-email">
-                                    Email address
+                                    {" "}
+                                    Email address{" "}
                                 </FieldLabel>
                                 <Input
                                     id="contact-email"
@@ -139,6 +139,7 @@ const projectTypes = [
                                     type="email"
                                     autocomplete="email"
                                     inputmode="email"
+                                    maxlength={254}
                                     required
                                 />
                             </Field>
@@ -147,7 +148,7 @@ const projectTypes = [
                         <fieldset class="project-choices">
                             <legend>What are we making?</legend>
                             <div class="choice-list">
-                                {projectTypes.map((type) => (
+                                {PROJECT_TYPES.map((type) => (
                                     <label class="project-choice">
                                         <input
                                             type="radio"
@@ -163,40 +164,83 @@ const projectTypes = [
 
                         <Field>
                             <FieldLabel for="contact-deadline">
-                                Deadline, if fixed
+                                {" "}
+                                Deadline, if fixed{" "}
                             </FieldLabel>
                             <Input
                                 id="contact-deadline"
                                 name="deadline"
                                 placeholder="e.g. 20 October"
+                                maxlength={100}
                             />
                         </Field>
                         <Field>
                             <FieldLabel for="contact-details">
-                                Project details
+                                {" "}
+                                Project details{" "}
                             </FieldLabel>
                             <Textarea
                                 id="contact-details"
                                 name="details"
                                 rows={6}
                                 placeholder="The idea, the audience, the feeling. Reference links welcome."
+                                minlength={20}
+                                maxlength={3000}
                                 required
                             />
                         </Field>
+
+                        <div class="honeypot" aria-hidden="true">
+                            <label for="contact-company">Company website</label>
+                            <input
+                                id="contact-company"
+                                name="company"
+                                type="text"
+                                tabindex="-1"
+                                autocomplete="off"
+                            />
+                        </div>
+
+                        {turnstileSiteKey ? (
+                            <div
+                                class="cf-turnstile"
+                                data-sitekey={turnstileSiteKey}
+                                data-action="contact"
+                                data-theme="auto"
+                                data-size="normal"
+                            ></div>
+                        ) : (
+                            <p class="configuration-notice">
+                                Verification is temporarily unavailable. Please
+                                use the email link instead.
+                            </p>
+                        )}
                     </FieldGroup>
 
                     <div class="form-action">
                         <Button class="submit-button" type="submit">
-                            Let’s make it happen
+                            <span data-submit-label>Let’s make it happen</span>
                             <Icon
                                 name="reicon:send"
                                 class="size-[21px]"
                                 aria-hidden="true"
                             />
                         </Button>
-                        <p>
-                            Opens a draft in your email app. You review and
-                            send.
+                        <p class="form-note">
+                            Your details are sent securely to my inbox.
+                        </p>
+                        <p
+                            class="form-status"
+                            data-form-status
+                            aria-live="polite"
+                            tabindex="-1"
+                            hidden
+                        ></p>
+                        <p class="error-fallback" data-error-fallback hidden>
+                            Prefer email?{" "}
+                            <a href={`mailto:${profile.email}`}>
+                                Send your inquiry in Gmail.
+                            </a>
                         </p>
                     </div>
                 </Form>
@@ -218,6 +262,15 @@ const projectTypes = [
     </SectionContainer>
 </Section>
 
+{turnstileSiteKey && (
+    <script
+        is:inline
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+    ></script>
+)}
+
 <script>
     const contactForm = document.querySelector<HTMLFormElement>(
         "[data-contact-form]",
@@ -226,33 +279,90 @@ const projectTypes = [
     if (contactForm && contactForm.dataset.contactReady !== "true") {
         contactForm.dataset.contactReady = "true";
 
-        contactForm.addEventListener("submit", (event) => {
+        const submitButton = contactForm.querySelector<HTMLButtonElement>(
+            'button[type="submit"]',
+        );
+        const submitLabel = contactForm.querySelector<HTMLElement>(
+            "[data-submit-label]",
+        );
+        const status =
+            contactForm.querySelector<HTMLElement>("[data-form-status]");
+        const fallback = contactForm.querySelector<HTMLElement>(
+            "[data-error-fallback]",
+        );
+        let submitting = false;
+
+        const resetTurnstile = () => {
+            const turnstile = (
+                window as Window & {
+                    turnstile?: {
+                        reset: (widget?: string | HTMLElement) => void;
+                    };
+                }
+            ).turnstile;
+            if (turnstile) turnstile.reset();
+        };
+
+        const setStatus = (message: string, state: "success" | "error") => {
+            if (!status) return;
+            status.textContent = message;
+            status.dataset.state = state;
+            status.hidden = false;
+            if (state === "error") status.focus();
+        };
+
+        contactForm.addEventListener("submit", async (event) => {
             event.preventDefault();
 
-            if (!contactForm.reportValidity()) return;
+            if (submitting || !contactForm.reportValidity()) return;
+
+            submitting = true;
+            contactForm.setAttribute("aria-busy", "true");
+            if (submitButton) submitButton.disabled = true;
+            if (submitLabel) submitLabel.textContent = "Sending…";
+            if (status) status.hidden = true;
+            if (fallback) fallback.hidden = true;
 
             const formData = new FormData(contactForm);
-            const recipient = contactForm.dataset.contactEmail ?? "";
-            const name = String(formData.get("name") ?? "").trim();
-            const email = String(formData.get("email") ?? "").trim();
-            const projectType = String(
-                formData.get("projectType") ?? "",
-            ).trim();
-            const deadline =
-                String(formData.get("deadline") ?? "").trim() || "Flexible";
-            const details = String(formData.get("details") ?? "").trim();
-            const subject = `Portfolio inquiry: ${projectType} from ${name}`;
-            const body = [
-                `Name: ${name}`,
-                `Email: ${email}`,
-                `Project type: ${projectType}`,
-                `Deadline: ${deadline}`,
-                "",
-                "Project details:",
-                details,
-            ].join("\n");
+            const payload = Object.fromEntries(formData.entries());
 
-            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                const result = (await response.json().catch(() => null)) as {
+                    message?: string;
+                } | null;
+
+                if (!response.ok) {
+                    throw new Error(
+                        result?.message || "The message could not be sent.",
+                    );
+                }
+
+                contactForm.reset();
+                setStatus(
+                    "Thanks — your project details are on their way.",
+                    "success",
+                );
+            } catch (error) {
+                setStatus(
+                    error instanceof Error
+                        ? error.message
+                        : "The message could not be sent. Please try again.",
+                    "error",
+                );
+                if (fallback) fallback.hidden = false;
+            } finally {
+                resetTurnstile();
+                submitting = false;
+                contactForm.setAttribute("aria-busy", "false");
+                if (submitButton) submitButton.disabled = false;
+                if (submitLabel)
+                    submitLabel.textContent = "Let’s make it happen";
+            }
         });
     }
 </script>
@@ -360,6 +470,14 @@ const projectTypes = [
     :global(.contact-fields) {
         gap: 1.8rem;
     }
+    .honeypot {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
     .field-row {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -430,7 +548,7 @@ const projectTypes = [
         height: 1px;
         opacity: 0;
     }
-    .project-choice span {
+    .choice-list .project-choice span {
         display: flex;
         align-items: center;
         min-height: 44px;
@@ -443,21 +561,48 @@ const projectTypes = [
             color 0.2s ease,
             border-color 0.2s ease;
     }
-    .project-choice:hover span {
+    .choice-list .project-choice:hover span {
         border-color: var(--foreground);
     }
-    .project-choice input:checked + span {
+    .choice-list .project-choice input:checked + span {
         background: var(--foreground);
         color: var(--background);
         border-color: var(--foreground);
     }
-    .project-choice input:focus-visible + span {
+    .choice-list .project-choice input:focus-visible + span {
         outline: 2px solid var(--foreground);
         outline-offset: 3px;
     }
     .form-action {
         display: grid;
         gap: 0.9rem;
+    }
+    .cf-turnstile {
+        width: fit-content;
+        max-width: 100%;
+        min-height: 65px;
+    }
+    .configuration-notice,
+    .form-status,
+    .error-fallback {
+        font-size: 0.85rem;
+        line-height: 1.55;
+    }
+    .configuration-notice,
+    .form-status[data-state="error"],
+    .error-fallback {
+        color: var(--destructive);
+    }
+    .form-status[data-state="success"] {
+        color: var(--foreground);
+    }
+    .form-status:focus {
+        outline: none;
+    }
+    .error-fallback a {
+        color: var(--foreground);
+        text-decoration: underline;
+        text-underline-offset: 0.22em;
     }
     :global(.submit-button) {
         display: flex;
@@ -486,7 +631,12 @@ const projectTypes = [
     :global(.submit-button:active) {
         transform: translateY(1px);
     }
-    .form-action p {
+    :global(.submit-button:disabled) {
+        cursor: wait;
+        opacity: 0.7;
+        transform: none;
+    }
+    .form-note {
         color: var(--muted-foreground);
         font-size: 0.78rem;
         line-height: 1.5;
