@@ -1,6 +1,7 @@
 export const profile = {
   name: 'Vasanth Srinivas',
   email: 'vasanthramesh.che@gmail.com',
+  calUrl: 'https://cal.com/your-name/intro',
   linkedin: 'https://www.linkedin.com/invasanth-srinivas07/',
   whatsapp: '#',
   instagram: 'https://www.instagram.com/meisvasanth/',
