@@ -1,0 +1,150 @@
+---
+import aaladipattiyan from '@/assets/logos/aaladipattiyan.png';
+import bharathBenz from '@/assets/logos/bharath_benz.png';
+import bobcat from '@/assets/logos/bobcat.png';
+import fanly from '@/assets/logos/fanly.png';
+import mrf from '@/assets/logos/mrf.png';
+import preethi from '@/assets/logos/preethi.png';
+import sims from '@/assets/logos/sims.png';
+import techBlaze from '@/assets/logos/tech_blaze.png';
+import thenmanam from '@/assets/logos/thenmanam.svg';
+import { Separator } from '@/components/starwind/separator';
+
+const clients = [
+  { name: 'Aaladipattiyan', logo: aaladipattiyan },
+  { name: 'Bharath Benz', logo: bharathBenz },
+  { name: 'Bobcat', logo: bobcat },
+  { name: 'Fanly', logo: fanly },
+  { name: 'MRF', logo: mrf },
+  { name: 'Preethi', logo: preethi },
+  { name: 'SIMS', logo: sims },
+  { name: 'Tech Blaze', logo: techBlaze },
+  { name: 'Thenmanam', logo: thenmanam },
+];
+---
+
+<section class="client-marquee" aria-labelledby="clients-title">
+  <Separator />
+  <div class="client-marquee-inner shell">
+    <h2 id="clients-title">Selected clients</h2>
+    <div class="logo-viewport">
+      <div class="logo-track">
+        {[false, true].map((duplicate) => (
+          <ul class="logo-group" aria-hidden={duplicate ? 'true' : undefined}>
+            {clients.map(({ name, logo }) => (
+              <li class="logo-item">
+                <img
+                  class={name === 'Thenmanam' ? 'thenmanam-logo' : undefined}
+                  src={logo.src}
+                  alt={duplicate ? '' : name}
+                  width={logo.width}
+                  height={logo.height}
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.client-marquee-inner {
+  min-height: 152px;
+  display: grid;
+  grid-template-columns: 0.55fr minmax(0, 2fr);
+  align-items: center;
+  gap: 3rem;
+}
+
+h2 {
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+  font-weight: 520;
+}
+
+.logo-viewport {
+  min-width: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-logos 38s linear infinite;
+}
+
+.logo-viewport:hover .logo-track {
+  animation-play-state: paused;
+}
+
+.logo-group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: clamp(3rem, 5vw, 5.5rem);
+  padding-right: clamp(3rem, 5vw, 5.5rem);
+  list-style: none;
+}
+
+.logo-item {
+  display: flex;
+  flex: none;
+  min-width: 92px;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-item img {
+  width: auto;
+  max-width: 160px;
+  height: auto;
+  max-height: 76px;
+  object-fit: contain;
+}
+
+.thenmanam-logo {
+  filter: brightness(0);
+  opacity: 0.8;
+}
+
+@keyframes scroll-logos {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 900px) {
+  .client-marquee-inner {
+    padding-block: 2rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-viewport {
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .logo-track {
+    width: 100%;
+    animation: none;
+  }
+
+  .logo-group {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .logo-group[aria-hidden="true"] {
+    display: none;
+  }
+}
+</style>
