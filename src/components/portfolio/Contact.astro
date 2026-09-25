@@ -1,11 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import {
-    Section,
-    SectionContainer,
-    SectionTitle,
-} from "@/components/ui/section";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/starwind/separator";
 import { profile } from "../../data/portfolio";
 
 const socialLinks = [
@@ -15,19 +10,19 @@ const socialLinks = [
 ].filter((link) => link.href && link.href !== "#");
 ---
 
-<Section
-    class="contact gap-0 py-0"
+<section
+    class="contact"
     id="contact"
     aria-labelledby="contact-title"
 >
-    <SectionContainer class="shell max-w-none gap-0 px-0">
+    <div class="shell">
         <div class="contact-layout">
-            <SectionTitle as="h2" class="contact-title" id="contact-title">
+            <h2 class="contact-title" id="contact-title">
                 Your next
                 <br />
                 great edit.
                 <span class="title-invitation">Let’s talk.</span>
-            </SectionTitle>
+            </h2>
 
             <div class="contact-actions">
                 <p class="contact-description">
@@ -95,8 +90,8 @@ const socialLinks = [
                 />
             </a>
         </footer>
-    </SectionContainer>
-</Section>
+    </div>
+</section>
 
 <style>
     :global(.contact) {

@@ -2,7 +2,7 @@
 
 A responsive portfolio for a video editor, animator, and AI editor. Built with Astro and Tailwind CSS.
 
-The interface uses Astro-first Full.dev UI primitives. The registry is configured in `components.json`, and the local Button, Card, and Section source files live under `src/components/ui`.
+The interface uses Starwind UI components. The installed component source lives under `src/components/starwind`, with its registry recorded in `starwind.config.json`.
 
 ## Development
 
@@ -24,7 +24,7 @@ pnpm build
 - Edit biography, clients, tools, contact links, and the Cal.com booking URL in `src/data/portfolio.ts`.
 - Compose the page in `src/pages/index.astro`.
 - Edit section markup and scoped styles in `src/components/portfolio`.
-- Keep Full.dev and Tailwind defaults in `src/styles/global.css`.
+- Keep Starwind tokens and Tailwind setup in `src/styles/starwind.css`.
 - Edit portfolio colors, typography, resets, and shared layout utilities in `src/styles/portfolio-theme.css`.
 - Replace `public/images/vasanth-portrait-placeholder.png` with the final portrait.
 - Replace the showreel and project placeholders before publishing.

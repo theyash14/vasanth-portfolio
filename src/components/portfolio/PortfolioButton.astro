@@ -1,11 +1,11 @@
 ---
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/starwind/button';
 
 const { href, compact = false, ...props } = Astro.props;
 const className = compact ? 'portfolio-button portfolio-button--compact' : 'portfolio-button';
 ---
 
-<Button as="a" href={href} class={className} {...props}>
+<Button href={href} class={className} {...props}>
   <slot />
 </Button>
 

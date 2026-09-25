@@ -1,10 +1,9 @@
 ---
-import { Section } from '@/components/ui/section';
 import { bunnyStreamLibraryId, showreel } from '../../data/portfolio';
 import BunnyVideo from './BunnyVideo.astro';
 ---
 
-<Section class="showreel shell gap-0" id="showreel" aria-labelledby="showreel-title">
+<section class="showreel shell" id="showreel" aria-labelledby="showreel-title">
   <BunnyVideo
     class="showreel-player"
     libraryId={bunnyStreamLibraryId}
@@ -17,7 +16,7 @@ import BunnyVideo from './BunnyVideo.astro';
   <div class="media-caption">
     <h2 id="showreel-title">A selection in motion</h2>
   </div>
-</Section>
+</section>
 
 <style>
 :global(.showreel) {

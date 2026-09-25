@@ -1,27 +1,22 @@
 ---
 import portrait from "@/assets/images/me.png";
-import {
-    Section,
-    SectionDescription,
-    SectionTitle,
-} from "@/components/ui/section";
 import { profile } from "../../data/portfolio";
 import PortfolioButton from "./PortfolioButton.astro";
 ---
 
-<Section class="hero shell" id="top" aria-labelledby="hero-title">
+<section class="hero shell" id="top" aria-labelledby="hero-title">
     <div class="hero-copy">
-        <SectionTitle as="h1" class="hero-title" id="hero-title">
+        <h1 class="hero-title" id="hero-title">
             Vasanth Srinivas.
-        </SectionTitle>
+        </h1>
         <p class="roles">
             Video editor, animator,
             <br />
             AI editor.
         </p>
-        <SectionDescription class="introduction" id="about">
+        <p class="introduction" id="about">
             {profile.introduction}
-        </SectionDescription>
+        </p>
         <PortfolioButton href="#showreel">
             Watch my reel <span aria-hidden="true">↗</span>
         </PortfolioButton>
@@ -35,7 +30,7 @@ import PortfolioButton from "./PortfolioButton.astro";
             fetchpriority="high"
         />
     </figure>
-</Section>
+</section>
 
 <style>
     :global(.hero) {
@@ -70,6 +65,7 @@ import PortfolioButton from "./PortfolioButton.astro";
     :global(.introduction) {
         max-width: 48rem;
         margin-block: 2rem;
+        color: var(--muted-foreground);
         font-size: clamp(1rem, 1.25vw, 1.08rem);
         line-height: 1.65;
     }

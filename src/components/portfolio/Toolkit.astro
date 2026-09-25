@@ -1,26 +1,28 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Item } from '@/components/ui/item';
-import { Marquee } from '@/components/ui/marquee';
-import { Section, SectionContainer, SectionTitle } from '@/components/ui/section';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/starwind/separator';
 import { tools } from '../../data/portfolio';
 ---
 
-<Section class="toolkit gap-0 py-0" aria-labelledby="toolkit-title">
+<section class="toolkit" aria-labelledby="toolkit-title">
   <Separator />
-  <SectionContainer class="shell toolkit-inner max-w-none gap-0 px-0">
-    <SectionTitle as="h2" class="toolkit-title" id="toolkit-title"> Toolkit </SectionTitle>
-    <Marquee class="toolkit-list" duration="28s" gap="clamp(2.5rem, 6vw, 6rem)" pauseOnHover>
-      {tools.map((tool) => (
-                <Item class="toolkit-item w-auto shrink-0 rounded-none border-0 p-0">
-                    <Icon name={tool.icon} title={tool.name} class="toolkit-icon" />
-                </Item>
-            ))}
-    </Marquee>
-  </SectionContainer>
+  <div class="shell toolkit-inner">
+    <h2 class="toolkit-title" id="toolkit-title"> Toolkit </h2>
+    <div class="toolkit-list">
+      <div class="toolkit-track">
+        {tools.map((tool) => (
+          <span class="toolkit-item"><Icon name={tool.icon} title={tool.name} class="toolkit-icon" /></span>
+        ))}
+      </div>
+      <div class="toolkit-track" aria-hidden="true">
+        {tools.map((tool) => (
+          <span class="toolkit-item"><Icon name={tool.icon} class="toolkit-icon" /></span>
+        ))}
+      </div>
+    </div>
+  </div>
   <Separator />
-</Section>
+</section>
 
 <style>
 :global(.toolkit-inner) {
@@ -39,6 +41,25 @@ import { tools } from '../../data/portfolio';
 
 :global(.toolkit-list) {
   min-width: 0;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+}
+
+.toolkit-track {
+  display: flex;
+  min-width: max-content;
+  flex-shrink: 0;
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding-right: clamp(2.5rem, 6vw, 6rem);
+  animation: toolkit-scroll 28s linear infinite;
+}
+
+.toolkit-list:hover .toolkit-track { animation-play-state: paused; }
+
+@keyframes toolkit-scroll {
+  to { transform: translateX(-100%); }
 }
 
 :global(.toolkit-item) {
@@ -63,11 +84,11 @@ import { tools } from '../../data/portfolio';
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(.toolkit-list > div) {
+  .toolkit-track {
     animation: none;
   }
 
-  :global(.toolkit-list > [aria-hidden="true"]) {
+  .toolkit-track[aria-hidden="true"] {
     display: none;
   }
 }
