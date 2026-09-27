@@ -34,7 +34,7 @@ import PortfolioButton from "./PortfolioButton.astro";
 
 <style>
     :global(.hero) {
-        min-height: calc(100dvh - 80px);
+        min-height: min(calc(100dvh - 80px), 48rem);
         padding-block: 4rem 3rem;
         display: grid;
         grid-template-columns: minmax(0, 2fr) minmax(300px, 0.95fr);
@@ -84,7 +84,7 @@ import PortfolioButton from "./PortfolioButton.astro";
     .portrait-frame {
         width: 100%;
         margin: 0;
-        align-self: start;
+        align-self: center;
         overflow: hidden;
         border-radius: var(--portfolio-media-radius);
         background: var(--portfolio-media);

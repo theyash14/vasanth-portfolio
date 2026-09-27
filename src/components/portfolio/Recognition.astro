@@ -1,21 +1,21 @@
 ---
+import { Image } from 'astro:assets';
+import BEAward from '@/assets/images/BE.png';
 ---
 
 <section class="recognition shell" id="recognition" aria-labelledby="award-title">
-  <div
+  <Image
     class="award-image"
-    role="img"
-    aria-label="Placeholder for Vasanth's Best Editor award photograph"
-  >
-    <div class="award-image-content">
-      <span aria-hidden="true" class="award-mark">▣</span>
-      <span>Award photograph</span>
-      <span>Add your Best Editor award moment</span>
-    </div>
-  </div>
+    src={BEAward}
+    alt="Vasanth's Best Editor award and certificate from Vimi Magic"
+  />
   <div class="award-copy">
-    <h2 class="award-title" id="award-title"> Best Editor<br>Award </h2>
-    <p class="award-meta">[ Award organisation ] / [ Year ]</p>
+    <h2 class="award-title" id="award-title">
+      Best Editor
+      <br>
+      Award
+    </h2>
+    <p class="award-meta">Vimi Magic — 2025</p>
     <p class="award-description">
       A proud moment in the journey. A reminder to keep creating work that connects, challenges, and
       stays with people.
@@ -33,21 +33,10 @@
   gap: clamp(4rem, 8vw, 8rem);
 }
 
-:global(.award-image) {
-  min-height: 450px;
-  background: var(--portfolio-media);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.award-image-content { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.award-image-content span:last-child { color: var(--muted-foreground); font-size: 0.875rem; }
-
-.award-mark {
-  color: #8f785d;
-  font-size: 1.8rem;
+.award-image {
+  width: 100%;
+  height: auto;
+  border-radius: 1.75rem;
 }
 
 .award-copy {
@@ -89,10 +78,6 @@
 
   :global(.award-title) {
     font-size: clamp(3rem, 14vw, 4rem);
-  }
-
-  :global(.award-image) {
-    min-height: 340px;
   }
 }
 </style>

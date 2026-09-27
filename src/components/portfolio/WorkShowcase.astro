@@ -3,24 +3,30 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/starwind/
 import { bunnyStreamLibraryId, clients } from '../../data/portfolio';
 import BunnyVideo from './BunnyVideo.astro';
 
-const clientCollections = clients.map((client) => ({
-  ...client,
-  standardVideos: client.videos.filter((video) => video.format === 'video'),
-  reels: client.videos.filter((video) => video.format === 'reel'),
-}));
+const clientCollections = clients.map((client) => {
+  const standardVideos = client.videos.filter((video) => video.format === 'video');
+  const videoGroups = [...new Set(standardVideos.map((video) => video.aspect))].map((aspect) => ({
+    aspect,
+    videos: standardVideos.filter((video) => video.aspect === aspect),
+  }));
+
+  return {
+    ...client,
+    standardVideos,
+    videoGroups,
+    reels: client.videos.filter((video) => video.format === 'reel'),
+  };
+});
 ---
 
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="shell">
     <div class="section-heading">
-      <h2 class="work-title" id="work-title"> Client edits </h2>
-      <p class="work-description">
-        Thirty-eight videos, organised by client and body of work.
-      </p>
+      <h2 class="work-title" id="work-title">Client work</h2>
     </div>
 
     <Tabs defaultValue={clientCollections[0]?.id} class="gap-0">
-      <TabsList class="client-tabs h-auto w-full rounded-none p-0">
+      <TabsList class="client-tabs h-auto w-full bg-transparent p-0">
         {clientCollections.map((client) => (
           <TabsTrigger id={`${client.id}-tab`} class="client-tab" value={client.id}>
             {client.tab}
@@ -29,7 +35,7 @@ const clientCollections = clients.map((client) => ({
       </TabsList>
 
       {clientCollections.map((client) => (
-        <TabsContent value={client.id}>
+        <TabsContent value={client.id} class="client-content">
           <div class="client-panel">
             <div class="client-intro">
               <h3>{client.name}</h3>
@@ -43,20 +49,30 @@ const clientCollections = clients.map((client) => ({
                     <h4 id={`${client.id}-videos-title`}>Videos</h4>
                     <p>{client.standardVideos.length} {client.standardVideos.length === 1 ? 'video' : 'videos'}</p>
                   </div>
-                  <ul class="media-grid video-grid" aria-label={`${client.name} standard videos`}>
-                    {client.standardVideos.map((video, videoIndex) => (
-                      <li class="media-card" data-aspect={video.aspect}>
-                        <figure>
-                          <BunnyVideo
-                            libraryId={bunnyStreamLibraryId}
-                            videoId={video.bunnyVideoId}
-                            title={`${client.name}, video ${videoIndex + 1}`}
-                            aspect={video.aspect}
-                          />
-                        </figure>
-                      </li>
+                  <div class="video-aspect-groups">
+                    {client.videoGroups.map((group, groupIndex) => (
+                      <div class="video-aspect-group">
+                        <ul
+                          class="media-grid video-grid"
+                          data-aspect={group.aspect}
+                          aria-label={`${client.name} videos, group ${groupIndex + 1}`}
+                        >
+                          {group.videos.map((video, videoIndex) => (
+                            <li class="media-card" data-aspect={video.aspect}>
+                              <figure>
+                                <BunnyVideo
+                                  libraryId={bunnyStreamLibraryId}
+                                  videoId={video.bunnyVideoId}
+                                  title={`${client.name}, ${group.aspect} video ${videoIndex + 1}`}
+                                  aspect={video.aspect}
+                                />
+                              </figure>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </section>
               )}
 
@@ -102,9 +118,6 @@ const clientCollections = clients.map((client) => ({
 
 .section-heading {
   margin-bottom: 2.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 }
 
 :global(.work-title) {
@@ -114,40 +127,42 @@ const clientCollections = clients.map((client) => ({
   letter-spacing: -0.06em;
 }
 
-:global(.work-description) {
-  color: var(--muted-foreground);
-  font-size: 1.08rem;
-}
-
 :global(.client-tabs) {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
-  min-height: 56px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: none;
-}
-
-:global(.client-tabs::-webkit-scrollbar) {
-  display: none;
+  gap: 0.5rem;
+  min-height: 0;
+  background: transparent;
 }
 
 :global(.client-tab) {
   flex: 0 0 auto;
   min-width: max-content;
-  min-height: 56px;
-  padding: 0.9rem clamp(0.8rem, 1.4vw, 1.25rem);
-  border-bottom: 1px solid var(--border);
+  min-height: 48px;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: var(--portfolio-button-radius);
+  background: transparent;
   color: var(--muted-foreground);
+  box-shadow: none;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+:global(.client-tab:not([data-state="active"]):not([data-active]):hover) {
+  background: var(--muted);
+  color: var(--foreground);
 }
 
 :global(.client-tab[data-state="active"]),
 :global(.client-tab[data-active]) {
-  border-bottom: 3px solid var(--foreground);
-  color: var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
   font-weight: 620;
+  box-shadow: none;
 }
 
 :global(.client-tab::after) {
@@ -158,8 +173,27 @@ const clientCollections = clients.map((client) => ({
   padding-top: clamp(2.5rem, 5vw, 4.5rem);
 }
 
+:global(.client-content[data-state="active"]) {
+  animation: client-content-in 180ms ease-out;
+}
+
+@keyframes client-content-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.client-content[data-state="active"]) {
+    animation: none;
+  }
+}
+
 .client-intro {
-  max-width: 40rem;
   margin-bottom: clamp(2.25rem, 4vw, 3.5rem);
 }
 
@@ -218,8 +252,31 @@ const clientCollections = clients.map((client) => ({
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.video-aspect-groups {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.video-grid[data-aspect="square"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .reel-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1280px) {
+  :global(.client-tabs) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  :global(.client-tabs::-webkit-scrollbar) {
+    display: none;
+  }
 }
 
 @media (max-width: 700px) {
@@ -235,6 +292,7 @@ const clientCollections = clients.map((client) => ({
     margin-inline: calc(var(--gutter) * -1);
     width: calc(100% + (var(--gutter) * 2));
     padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
   }
 
   .client-intro {
@@ -245,7 +303,8 @@ const clientCollections = clients.map((client) => ({
     gap: 3.5rem;
   }
 
-  .video-grid {
+  .video-grid,
+  .video-grid[data-aspect="square"] {
     grid-template-columns: 1fr;
   }
 
@@ -254,3 +313,24 @@ const clientCollections = clients.map((client) => ({
   }
 }
 </style>
+
+<script>
+document.querySelectorAll<HTMLElement>('.client-tabs').forEach((list) => {
+  const revealSelectedTab = () => {
+    if (list.scrollWidth <= list.clientWidth) return;
+
+    const selected = list.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
+    selected?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
+    });
+  };
+
+  new MutationObserver(revealSelectedTab).observe(list, {
+    attributes: true,
+    attributeFilter: ['aria-selected'],
+    subtree: true,
+  });
+});
+</script>

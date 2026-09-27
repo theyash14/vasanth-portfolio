@@ -3,7 +3,7 @@ import { bunnyStreamLibraryId, showreel } from '../../data/portfolio';
 import BunnyVideo from './BunnyVideo.astro';
 ---
 
-<section class="showreel shell" id="showreel" aria-labelledby="showreel-title">
+<section class="showreel shell" id="showreel" aria-label="Introduction video">
   <BunnyVideo
     class="showreel-player"
     libraryId={bunnyStreamLibraryId}
@@ -13,9 +13,6 @@ import BunnyVideo from './BunnyVideo.astro';
     muted={false}
     preload={true}
   />
-  <div class="media-caption">
-    <h2 id="showreel-title">A selection in motion</h2>
-  </div>
 </section>
 
 <style>
@@ -27,26 +24,9 @@ import BunnyVideo from './BunnyVideo.astro';
   aspect-ratio: 16 / 9;
 }
 
-.media-caption {
-  min-height: 68px;
-  padding-top: 1.25rem;
-  display: flex;
-  align-items: flex-start;
-}
-
-h2 {
-  font-size: clamp(1.45rem, 2.2vw, 2rem);
-  font-weight: 450;
-  letter-spacing: -0.035em;
-}
-
 @media (max-width: 700px) {
   :global(.showreel) {
     padding-block: 1rem 5.5rem;
-  }
-
-  .media-caption {
-    min-height: 72px;
   }
 }
 </style>
