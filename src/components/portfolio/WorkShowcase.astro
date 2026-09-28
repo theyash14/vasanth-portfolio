@@ -5,15 +5,10 @@ import BunnyVideo from './BunnyVideo.astro';
 
 const clientCollections = clients.map((client) => {
   const standardVideos = client.videos.filter((video) => video.format === 'video');
-  const videoGroups = [...new Set(standardVideos.map((video) => video.aspect))].map((aspect) => ({
-    aspect,
-    videos: standardVideos.filter((video) => video.aspect === aspect),
-  }));
 
   return {
     ...client,
     standardVideos,
-    videoGroups,
     reels: client.videos.filter((video) => video.format === 'reel'),
   };
 });
@@ -49,30 +44,20 @@ const clientCollections = clients.map((client) => {
                     <h4 id={`${client.id}-videos-title`}>Videos</h4>
                     <p>{client.standardVideos.length} {client.standardVideos.length === 1 ? 'video' : 'videos'}</p>
                   </div>
-                  <div class="video-aspect-groups">
-                    {client.videoGroups.map((group, groupIndex) => (
-                      <div class="video-aspect-group">
-                        <ul
-                          class="media-grid video-grid"
-                          data-aspect={group.aspect}
-                          aria-label={`${client.name} videos, group ${groupIndex + 1}`}
-                        >
-                          {group.videos.map((video, videoIndex) => (
-                            <li class="media-card" data-aspect={video.aspect}>
-                              <figure>
-                                <BunnyVideo
-                                  libraryId={bunnyStreamLibraryId}
-                                  videoId={video.bunnyVideoId}
-                                  title={`${client.name}, ${group.aspect} video ${videoIndex + 1}`}
-                                  aspect={video.aspect}
-                                />
-                              </figure>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                  <ul class="media-grid video-grid" data-layout={client.id === 'mrf' ? 'mrf' : undefined} aria-label={`${client.name} videos`}>
+                    {client.standardVideos.map((video, videoIndex) => (
+                      <li class="media-card" data-aspect={video.aspect}>
+                        <figure>
+                          <BunnyVideo
+                            libraryId={bunnyStreamLibraryId}
+                            videoId={video.bunnyVideoId}
+                            title={`${client.name}, ${video.aspect} video ${videoIndex + 1}`}
+                            aspect={video.aspect}
+                          />
+                        </figure>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </section>
               )}
 
@@ -252,13 +237,21 @@ const clientCollections = clients.map((client) => {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.video-aspect-groups {
-  display: grid;
-  gap: clamp(2rem, 4vw, 3rem);
+.video-grid[data-layout="mrf"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.video-grid[data-aspect="square"] {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.video-grid[data-layout="mrf"] .media-card:nth-child(4) {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+  justify-self: center;
+  width: 75%;
+  align-self: start;
+}
+
+.video-grid[data-layout="mrf"] .media-card:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
 }
 
 .reel-grid {
@@ -304,8 +297,15 @@ const clientCollections = clients.map((client) => {
   }
 
   .video-grid,
-  .video-grid[data-aspect="square"] {
+  .video-grid[data-layout="mrf"] {
     grid-template-columns: 1fr;
+  }
+
+  .video-grid[data-layout="mrf"] .media-card:nth-child(4),
+  .video-grid[data-layout="mrf"] .media-card:nth-child(5) {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
   }
 
   .reel-grid {

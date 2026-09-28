@@ -111,7 +111,7 @@ export const clients = [
       {
         bunnyVideoId: '40998bfb-660e-4523-adad-58aa3e3505b3',
         format: 'video',
-        aspect: 'landscape',
+        aspect: 'square',
       },
     ],
   },
