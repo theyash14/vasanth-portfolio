@@ -241,7 +241,7 @@ export const clients = [
     id: 'celebrities',
     tab: 'Celebrities',
     name: 'Celebrity edits',
-    summary: 'Worked across celebrity events and entertainment projects featuring Soori, Mamitha, Suriya, Atharvaa, Kayadu, Nani, and Jason Vijay, handling event management, on-ground coordination, and video production to capture and deliver engaging event content.',
+    summary: 'Worked across celebrity events and entertainment projects featuring Siva Karthikeyan, Soori, Mamitha, Suriya, Atharvaa, Kayadu Lohar, Nani, and Jason Sanjay, handling event management, on-ground coordination, and video production to capture and deliver engaging event content.',
     videos: [
       {
         bunnyVideoId: 'aea4689d-6c46-42c1-b62e-df7ec698c8b9',
