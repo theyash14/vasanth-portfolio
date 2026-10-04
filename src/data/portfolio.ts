@@ -68,7 +68,7 @@ export const clients = [
     id: 'bharath-benz',
     tab: 'Bharath Benz',
     name: 'Bharath Benz',
-    summary: 'Kilometer Millionaire is a 10-episode content series created for BharatBenz (Daimler Truck), celebrating the journeys, experiences, and achievements of drivers who have crossed remarkable milestones on the road. I worked as the Editor for the entire 10-episode series, taking responsibility for shaping the raw footage into engaging and impactful stories. My role involved story-driven editing, pacing, transitions, visual treatment, audio synchronization, colour grading, and overall post-production. Each episode was crafted to highlight the human stories behind the kilometers, while maintaining BharatBenz’s professional brand identity and visual language. Being part of the complete series allowed me to maintain consistency while giving every episode its own narrative character.',
+    summary: 'Kilometer Millionaire is a 10-episode series for BharatBenz (Daimler Truck), celebrating drivers and their remarkable milestones. I served as the Editor for the complete series, handling storytelling, pacing, sound design, transitions, and colour grading.',
     videos: [
       {
         bunnyVideoId: 'fdea8a89-0387-4869-812b-7be2f848c679',
@@ -86,7 +86,7 @@ export const clients = [
     id: 'mrf',
     tab: 'MRF',
     name: 'MRF',
-    summary: 'MRF Racing & Tyres was a high-energy motorsport content project focused on showcasing MRF’s performance, racing legacy, and tyre technology. I worked as a Video Editor, transforming race footage, event coverage, and brand visuals into dynamic and engaging content. My role involved crafting fast-paced edits, synchronizing visuals with music and sound design, creating impactful transitions, colour grading, and maintaining a consistent visual identity across the content. The project required a strong understanding of action-driven storytelling and timing to capture the intensity and excitement of motorsport while effectively communicating the performance and reliability associated with MRF Racing and Tyres.',
+    summary: 'MRF Racing & Tyres is a high-energy motorsport project showcasing racing, performance, and tyre technology. I worked on crafting dynamic visuals through creative editing, pacing, sound design, transitions, and colour grading.',
     videos: [
       {
         bunnyVideoId: 'ea117203-c1ba-4684-8f75-ac9397528001',
@@ -119,7 +119,7 @@ export const clients = [
     id: 'marina-mall',
     tab: 'Marina Mall',
     name: 'Marina Mall',
-    summary: 'The Marina Mall was a dynamic brand content project where I worked closely with the client to understand their vision, creative requirements, and communication goals. As a Video Editor, I was responsible for transforming concepts and raw footage into engaging, visually appealing content that aligned with the mall’s brand identity. I collaborated closely with the client throughout the creative and post-production process, incorporating feedback and ensuring each deliverable met their expectations. My work involved editing, pacing, transitions, colour grading, sound design, and overall visual storytelling, with a focus on creating polished content that effectively captured the energy, experiences, and lifestyle associated with Marina Mall.',
+    summary: 'Marina Mall is a lifestyle and entertainment project where I worked closely with the client, translating their ideas and requirements into engaging visual content while ensuring each deliverable aligned with the brand’s identity and communication goals.',
     videos: [
       {
         bunnyVideoId: '8501e128-0047-4647-88ca-36c1a00a7a00',
@@ -157,7 +157,7 @@ export const clients = [
     id: 'sims',
     tab: 'SIMS',
     name: 'SIMS',
-    summary: 'SIMS Hospital was a healthcare-focused content project where I worked as a Video Editor, transforming medical footage, interviews, and promotional content into clear, engaging, and professionally structured videos. My role involved editing, storytelling, pacing, transitions, colour grading, sound design, and overall post-production. I focused on presenting healthcare information in a visually engaging and easily understandable format while maintaining a professional and trustworthy tone throughout the content. The project required careful attention to detail and strong visual storytelling to effectively communicate medical topics, hospital services, and patient-focused narratives while maintaining the brand’s visual identity.',
+    summary: 'SIMS Hospital is a healthcare content project focused on communicating medical services and patient experiences through engaging visual storytelling. The content was crafted to maintain a professional, informative, and approachable tone while making complex healthcare subjects easy for audiences to understand.',
     videos: [
       {
         bunnyVideoId: '897864d1-b541-4179-88a9-f9edd728d42e',
@@ -180,7 +180,7 @@ export const clients = [
     id: 'fanly',
     tab: 'Fanly',
     name: 'Fanly',
-    summary: 'Fanly is a fan engagement app designed to bring fans and their favourite creators, celebrities, and personalities closer through interactive digital experiences. I worked as a Video Editor, creating engaging promotional and social media content to showcase the platform and its features. My role involved transforming concepts and raw footage into dynamic, attention-grabbing videos through creative editing, motion graphics, transitions, sound design, and colour grading. The content was designed to capture the excitement of fan interaction while maintaining a modern and energetic visual style. This project allowed me to combine storytelling and digital content creation to communicate the app’s concept effectively and engage its target audience.',
+    summary: 'Fanly is a fan engagement app designed to connect fans with their favourite creators and personalities. I worked on creating engaging content that showcased the platform’s interactive experience, features, and community-driven concept through a modern digital approach.',
     videos: [
       {
         bunnyVideoId: '7f8c574e-01ef-42a6-8be4-604ac47632f4',
@@ -203,7 +203,7 @@ export const clients = [
     id: 'restaurant',
     tab: 'Restaurant',
     name: 'Restaurant edits',
-    summary: 'I worked on restaurant and food-brand content, creating visually engaging videos designed to showcase food, ambience, dining experiences, and brand identity. As a Video Editor, I transformed raw footage into polished content using creative storytelling, dynamic pacing, transitions, sound design, colour grading, and motion graphics. The edits were crafted to highlight the visual appeal of dishes while creating an inviting and memorable experience for the audience. From food-focused reels to promotional and social media content, I focused on making every frame visually appealing and aligned with the restaurant’s overall brand aesthetic, helping communicate the experience beyond just the food.',
+    summary: 'Worked on content for Aladipatiyan, Thenmanam, Filli Café, and Fuel, creating engaging visuals that showcased their food, ambience, and unique brand experiences through creative storytelling tailored to each restaurant.',
     videos: [
       {
         bunnyVideoId: 'edf76f8b-d5de-4a73-ae12-04b247b18dcf',
@@ -241,7 +241,7 @@ export const clients = [
     id: 'celebrities',
     tab: 'Celebrities',
     name: 'Celebrity edits',
-    summary: 'Worked across celebrity events and entertainment projects, taking on responsibilities in both Event Management and Video Production. My role involved coordinating event activities, managing on-ground requirements, supporting talent and production teams, and ensuring the smooth execution of events. Alongside event management, I handled video content and post-production, creating engaging edits that captured key moments, performances, and experiences. This combination of creative and operational responsibilities allowed me to contribute throughout the event lifecycle—from planning and coordination to capturing and presenting the final visual story.',
+    summary: 'Worked across celebrity events and entertainment projects featuring Soori, Mamitha, Suriya, Atharvaa, Kayadu, Nani, and Jason Vijay, handling event management, on-ground coordination, and video production to capture and deliver engaging event content.',
     videos: [
       {
         bunnyVideoId: 'aea4689d-6c46-42c1-b62e-df7ec698c8b9',
@@ -264,7 +264,7 @@ export const clients = [
     id: 'personal-branding',
     tab: 'Personal branding',
     name: 'Personal branding',
-    summary: 'Worked on personal branding projects for individual clients, developing visual content that reflected their personality, professional identity, and personal brand. My responsibilities included understanding the client’s vision, shaping creative concepts, and producing engaging video content for social media and digital platforms. I focused on storytelling, visual consistency, editing, motion graphics, colour grading, and content presentation to create a strong and recognisable brand presence. Each project involved adapting the creative approach to suit the client’s unique style, audience, and objectives, while maintaining a polished and professional visual identity across their content.',
+    summary: 'Worked on personal branding projects for clients, creating content that reflected their personality, profession, and individual identity. Focused on developing a consistent visual presence and engaging storytelling tailored to each client’s audience and personal brand.',
     videos: [
       {
         bunnyVideoId: '0c3a8251-cc85-4fd6-89e2-22e5efcdc325',
@@ -287,7 +287,7 @@ export const clients = [
     id: 'ai-works',
     tab: 'AI works',
     name: 'AI works',
-    summary: 'Worked on AI-driven creative projects, exploring the use of artificial intelligence to develop innovative visuals, concepts, and video content. My work involved combining AI-generated assets with traditional editing and post-production techniques to create unique and visually engaging outputs. I experimented with AI tools for image generation, video generation, visual enhancement, concept development, and creative compositing. The projects focused on pushing creative boundaries while maintaining strong storytelling, visual quality, and brand relevance. By integrating AI into the creative workflow, I was able to develop ideas faster, experiment with different visual directions, and create content that blended technology with modern visual storytelling.',
+    summary: 'Explored AI-powered creative projects, using generative AI to develop unique visuals, concepts, and video elements. Combined emerging AI tools with creative workflows to experiment with new styles and innovative approaches to visual storytelling.',
     videos: [
       {
         bunnyVideoId: 'c9b4453b-866f-4bff-bcaf-d9833f99a9e4',
@@ -320,7 +320,7 @@ export const clients = [
     id: 'more-works',
     tab: 'More work',
     name: 'More client work',
-    summary: 'Three additional edits from recent projects.',
+    summary: 'Here are some of my other works',
     videos: [
       {
         bunnyVideoId: '3ea399f5-fb7d-4029-848e-33e1f560ecd1',
