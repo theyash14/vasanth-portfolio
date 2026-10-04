@@ -35,7 +35,7 @@ export const tools = [
 export const bunnyStreamLibraryId = '754279';
 
 export const showreel = {
-  bunnyVideoId: 'fdea8a89-0387-4869-812b-7be2f848c679',
+  bunnyVideoId: 'eb71f265-d61a-4581-bbe2-4907c183be93',
   title: "Vasanth's showreel",
 };
 

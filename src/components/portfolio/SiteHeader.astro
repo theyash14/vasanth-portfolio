@@ -1,92 +1,106 @@
 ---
-import PortfolioButton from "./PortfolioButton.astro";
-import logo from "@/assets/logo.svg";
+import logo from '@/assets/logo.svg';
+import PortfolioButton from './PortfolioButton.astro';
 ---
 
 <header class="site-header shell">
-    <div class="site-header-container">
-        <div class="header-group">
-            <a href="/" aria-label="Vasanth, home">
-                <img
-                    src={logo.src}
-                    alt="VS logo"
-                    class="h-8 w-auto"
-                    aria-label="VS logo"
-                />
-            </a>
-        </div>
-        <div class="header-group header-navigation">
-            <nav aria-label="Primary navigation">
-                <a href="#about">About</a>
-                <a href="#work">Work</a>
-            </nav>
-        </div>
-        <div class="header-group header-actions">
-            <PortfolioButton href="#contact" compact>
-                Contact <span aria-hidden="true">↗</span>
-            </PortfolioButton>
-        </div>
+  <div class="site-header-container">
+    <div class="header-group">
+      <a href="/" aria-label="Vasanth, home">
+        <img src={logo.src} alt="VS logo" class="h-8 w-auto" aria-label="VS logo">
+      </a>
     </div>
+    <div class="header-group header-navigation">
+      <nav aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+      </nav>
+    </div>
+    <div class="header-group header-actions">
+      <PortfolioButton href="#contact" compact>
+        Contact <span aria-hidden="true">↗</span>
+      </PortfolioButton>
+    </div>
+  </div>
 </header>
 
 <style>
-    :global(.site-header) {
-        height: 80px;
-        border-bottom: 1px solid var(--border);
-        position: relative;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-    }
+:global(.site-header) {
+  height: 80px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+}
 
-    :global(.site-header-container) {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
-        width: 100%;
-    }
+:global(.site-header-container) {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+}
 
-    .header-group { display: flex; min-width: 0; align-items: center; }
-    .header-actions { margin-left: auto; }
+.header-group {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+.header-actions {
+  margin-left: auto;
+}
 
-    nav {
-        display: flex;
-        gap: 2.25rem;
-        font-size: 0.92rem;
-    }
+nav {
+  display: flex;
+  gap: 2.25rem;
+  font-size: 0.92rem;
+}
 
-    nav a {
-        position: relative;
-    }
+nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
-    nav a::after {
-        content: "";
-        position: absolute;
-        right: 100%;
-        bottom: -0.3rem;
-        left: 0;
-        height: 1px;
-        background: currentColor;
-        transition: right 0.35s var(--portfolio-ease);
-    }
+nav a::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  bottom: -0.3rem;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.35s var(--portfolio-ease);
+}
 
-    nav a:hover::after {
-        right: 0;
-    }
+nav a:hover::after {
+  right: 0;
+}
 
-    @media (max-width: 900px) {
-        :global(.site-header-container) {
-            grid-template-columns: 1fr auto;
-        }
+@media (max-width: 900px) {
+  :global(.site-header-container) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(0.5rem, 3vw, 1.5rem);
+  }
 
-        :global(.header-navigation) {
-            display: none;
-        }
-    }
+  .header-navigation {
+    justify-content: center;
+  }
 
-    @media (max-width: 700px) {
-        :global(.site-header) {
-            height: 68px;
-        }
-    }
+  nav {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  :global(.site-header) {
+    height: 68px;
+  }
+
+  nav {
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+}
 </style>
